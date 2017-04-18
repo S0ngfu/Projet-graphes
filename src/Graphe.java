@@ -1,8 +1,10 @@
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 class GrapheReader extends FileInputStream {
+
     private char c;
 
     public GrapheReader(String filename) throws FileNotFoundException {
@@ -32,8 +34,9 @@ class GrapheReader extends FileInputStream {
     }
 
     public void skipLine() throws IOException {
-        while (c != '\n')
+        while (c != '\n') {
             getChar();
+        }
     }
 
     public void skipComment(char code) throws IOException {
@@ -64,8 +67,10 @@ class GrapheReader extends FileInputStream {
 public abstract class Graphe {
 
     protected String KEY;
+    protected int n, m;
 
     public class Edges {
+
         String names;
 
         public String tostring() {
@@ -81,15 +86,15 @@ public abstract class Graphe {
 
     public Graphe open(String filename) {
         //Si le fichier finit avec .fsaps
-        if(filename.endsWith(".fsaps")) {
+        if (filename.endsWith(".fsaps")) {
             return new GrapheFsAps(filename);
-            
+
             //Si le fichier finit avec .matrice
-        } else if(filename.endsWith(".matrice")) {
+        } else if (filename.endsWith(".matrice")) {
             return new GrapheMatrice(filename);
-            
+
             //Si le fichier finit avec .listes
-        } else if(filename.endsWith(".listes")) {
+        } else if (filename.endsWith(".listes")) {
             return new GrapheListes(filename);
         } else {
             return null;
@@ -103,14 +108,6 @@ public abstract class Graphe {
     public void setEdgeName(int id, String name) throws ArrayIndexOutOfBoundsException {
         edges[id].names = name;
     }
-
-
-
-
-
-
-
-
 
     public static GrapheFsAps getGrapheFsAps(GrapheFsAps data) {
 
@@ -127,7 +124,6 @@ public abstract class Graphe {
         return new GrapheFsAps();
     }
 
-
     public static GrapheMatrice getGrapheMatrice(GrapheFsAps data) {
 
         return new GrapheMatrice();
@@ -142,7 +138,6 @@ public abstract class Graphe {
 
         return new GrapheMatrice();
     }
-
 
     public static GrapheListes getGrapheListes(GrapheFsAps data) {
 
