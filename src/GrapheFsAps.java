@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+import java.util.Vector;
 
 public class GrapheFsAps extends Graphe {
 
@@ -48,7 +52,7 @@ public class GrapheFsAps extends Graphe {
 
     public double[] distrec(int s, double dist, double[] d)
     {
-        for(int i = aps[s]; fs[i].id != 0; i++)
+        for(int i = aps[s]; fs[i].id != 0; i++) // should be fs[i] != null non ??
         {
             if((d[fs[i].id] > (dist + fs[i].weight)) || d[fs[i].id] == -1)
             {
@@ -67,6 +71,59 @@ public class GrapheFsAps extends Graphe {
 		mat[i] = distance(i);
 	}
         return mat;
+    }
+
+
+    public int[] det_rang() {
+
+        // il faut que le graphe soit orienté!!!
+
+
+        int[] rang = new int[nbEdges];
+        int[] ddi = ddi();
+
+        Stack<Integer> pile = new Stack<>();
+        boolean circtuit = true;
+
+        for(int i = 0 ; i < nbEdges ; i++)
+            if(ddi[i] == 0) {
+                circtuit = false;
+                rang[i] = 0;
+                pile.add(i);
+            }
+
+
+
+        if(!circtuit) {
+            int r = 1; //correspond au rang actuel
+
+            for(int i = 0 ; i < nbEdges ; i++) {
+
+            }
+
+
+        } else {
+            for(int i = 0 ; i < rang.length ; i++)
+                rang[i] = Integer.MAX_VALUE;
+        }
+
+
+
+
+
+        return rang;
+    }
+
+    public int[] ddi() {
+        int[] ddi = new int[nbEdges];
+        for(int i = 0 ; i < ddi.length ; i++)
+            ddi[i] = 0;
+
+        for(int i = 0 ; i < fs.length ; i++) {
+            if(fs[i] != null)
+                ddi[fs[i].id]++;
+        }
+        return ddi;
     }
 
 }
