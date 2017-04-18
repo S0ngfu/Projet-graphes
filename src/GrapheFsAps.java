@@ -3,9 +3,9 @@ import java.util.Stack;
 
 public class GrapheFsAps extends Graphe {
 
-    public int nbEdges;
+    public int nbVertices;
 
-    public Vertices[] fs;
+    public Edges[] fs;
     public int[] aps;
 
     GrapheFsAps() {
@@ -18,11 +18,11 @@ public class GrapheFsAps extends Graphe {
 
     @Override
     public String toString() {
-        String ret = "Nombre de sommets : " + nbEdges + "\n Arêtes :\n";
+        String ret = "Nombre de sommets : " + nbVertices + "\n Arêtes :\n";
         int j = 0;
-        for (int i = 0; i < nbEdges; i++) {
-            if (super.edges != null) {
-                ret += i + 1 + "(" + super.edges[i] + ") : ";
+        for (int i = 0; i < nbVertices; i++) {
+            if (super.vertices != null) {
+                ret += i + 1 + "(" + super.vertices[i] + ") : ";
             } else {
                 ret += i + 1 + " : ";
             }
@@ -72,13 +72,13 @@ public class GrapheFsAps extends Graphe {
     public int[] det_rang() {
 
         // il faut que le graphe soit orienté!!!
-        int[] rang = new int[nbEdges];
+        int[] rang = new int[nbVertices];
         int[] ddi = ddi();
 
         Stack<Integer> pile = new Stack<>();
         boolean circtuit = true;
 
-        for (int i = 0; i < nbEdges; i++) {
+        for (int i = 0; i < nbVertices; i++) {
             if (ddi[i] == 0) {
                 circtuit = false;
                 rang[i] = 0;
@@ -89,7 +89,7 @@ public class GrapheFsAps extends Graphe {
         if (!circtuit) {
             int r = 1; //correspond au rang actuel
 
-            for (int i = 0; i < nbEdges; i++) {
+            for (int i = 0; i < nbVertices; i++) {
 
             }
 
@@ -103,12 +103,12 @@ public class GrapheFsAps extends Graphe {
     }
 
     public int[] ddi() {
-        int[] ddi = new int[nbEdges];
+        int[] ddi = new int[nbVertices];
         for (int i = 0; i < ddi.length; i++) {
             ddi[i] = 0;
         }
 
-        for (Vertices f : fs) {
+        for (Edges f : fs) {
             if (f != null) {
                 ddi[f.id]++;
             }

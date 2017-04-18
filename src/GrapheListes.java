@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class GrapheListes extends Graphe {
 
-    ArrayList<ArrayList<Vertices>> data;
+    ArrayList<ArrayList<Edges>> data;
 
     GrapheListes() {
 

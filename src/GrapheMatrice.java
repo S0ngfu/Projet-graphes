@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class GrapheMatrice extends Graphe {
 
-    double[][] vertices;
+    double[][] edges;
 
     GrapheMatrice() {
 
@@ -40,7 +40,7 @@ public class GrapheMatrice extends Graphe {
 
         // Initialisation d'une matrice à une dimension à partir du graphe
         for (int i = 0; i < n; i++) {
-            System.arraycopy(vertices[i], 0, matrice, i * n, n);
+            System.arraycopy(edges[i], 0, matrice, i * n, n);
         }
 
         while (res.size() < n - 1 || index == -1) {
@@ -88,14 +88,14 @@ public class GrapheMatrice extends Graphe {
         GrapheMatrice resultat = new GrapheMatrice();
         resultat.n = n;
         resultat.m = n - 1;
-        resultat.vertices = new double[n][n];
+        resultat.edges = new double[n][n];
         for (int nb : res) {
             row = nb / n;
             col = nb % n;
-            resultat.vertices[row][col] = vertices[row][col];
+            resultat.edges[row][col] = edges[row][col];
             // Copie des noms
             // /!\ A VERIFIER /!\
-            System.arraycopy(edges, 0, resultat.edges, 0, n);
+            System.arraycopy(vertices, 0, resultat.vertices, 0, n);
         }
         return resultat;
     }

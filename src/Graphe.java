@@ -69,7 +69,7 @@ public abstract class Graphe {
     protected String KEY;
     protected int n, m;
 
-    public class Edges {
+    public class Vertices {
 
         String names;
 
@@ -78,7 +78,7 @@ public abstract class Graphe {
         }
     }
 
-    public Edges[] edges;
+    public Vertices[] vertices;
 
     Graphe() {
 
@@ -102,11 +102,11 @@ public abstract class Graphe {
     }
 
     public String getEdgeName(int id) throws ArrayIndexOutOfBoundsException {
-        return edges[id].names;
+        return vertices[id].names;
     }
 
     public void setEdgeName(int id, String name) throws ArrayIndexOutOfBoundsException {
-        edges[id].names = name;
+        vertices[id].names = name;
     }
 
     public static GrapheFsAps getGrapheFsAps(GrapheFsAps data) {
