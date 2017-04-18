@@ -65,7 +65,15 @@ public abstract class Graphe {
 
     protected String KEY;
 
-    private String[] edgesNames;
+    public class Edges {
+        String names;
+
+        public String tostring() {
+            return names;
+        }
+    }
+
+    public Edges[] edges;
 
     Graphe() {
 
@@ -89,11 +97,11 @@ public abstract class Graphe {
     }
 
     public String getEdgeName(int id) throws ArrayIndexOutOfBoundsException {
-        return edgesNames[id];
+        return edges[id].names;
     }
 
     public void setEdgeName(int id, String name) throws ArrayIndexOutOfBoundsException {
-        edgesNames[id] = name;
+        edges[id].names = name;
     }
 
 
