@@ -81,15 +81,15 @@ public abstract class Graphe {
 
     public Graphe open(String filename) {
         //Si le fichier finit avec .fsaps
-        if(true) {
+        if(filename.endsWith(".fsaps")) {
             return new GrapheFsAps(filename);
-
+            
             //Si le fichier finit avec .matrice
-        } else if(true) {
+        } else if(filename.endsWith(".matrice")) {
             return new GrapheMatrice(filename);
-
+            
             //Si le fichier finit avec .listes
-        } else if(true) {
+        } else if(filename.endsWith(".listes")) {
             return new GrapheListes(filename);
         } else {
             return null;
