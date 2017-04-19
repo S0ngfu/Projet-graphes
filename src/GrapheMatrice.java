@@ -155,7 +155,7 @@ public class GrapheMatrice extends Graphe {
     }
 
     public int[] codagePrufer() {
-        int[] p = new int[nbVertices - 1];
+        int[] p = new int[nbVertices + 1];
         p[0] = nbVertices - 2;
 
         for (int i = 1; i <= nbVertices; i++) {
@@ -167,9 +167,9 @@ public class GrapheMatrice extends Graphe {
         int k = 1;
         while (k <= nbVertices) {
             int i;
-            for (i = 1; edges[i][0] != 1; i++);
+            for (i = 1; edges[i][0] != 1 && i < nbVertices; i++);
             int j;
-            for (j = 1; edges[i][j] != 1; j++);
+            for (j = 1; edges[i][j] != 1 && i < nbVertices; j++);
             p[k++] = j;
 
             edges[i][0] = 0;
