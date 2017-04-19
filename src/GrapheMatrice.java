@@ -28,7 +28,7 @@ public class GrapheMatrice extends Graphe {
         return index;
     }
 
-    // Retourne un arbre recouvrant minimal
+    // Retourne un arbre recouvrant minimal d'un graphe non orienté
     // Version modifiée de : http://www.script-tout-fait.com/fr/fichier-Algorithme-de-Kruskal-obtenir-un-abre-couvrant-minimal-692.html
     public GrapheMatrice kruskal() {
         double[] matrice = new double[nbVertices * nbVertices];
@@ -93,6 +93,61 @@ public class GrapheMatrice extends Graphe {
             row = nb / nbVertices;
             col = nb % nbVertices;
             resultat.edges[row][col] = edges[row][col];
+            // Copie des noms
+            // /!\ A VERIFIER /!\
+            System.arraycopy(vertices, 0, resultat.vertices, 0, nbVertices);
+        }
+        return resultat;
+    }
+
+    // Retourne un arbre recouvrant minimal d'un graphe non orienté
+    // Le paramètre est la racine à partir de laquelle on créera cet arbre
+    public GrapheMatrice prim(int racine) {
+        int[] visité = new int[nbVertices];
+        int[] précédent = new int[nbVertices];
+        int courant, total;
+        double[] distance = new double[nbVertices];
+        double coûtmin;
+        courant = 1;
+        distance[courant] = 0;
+        total = 1;
+        visité[courant] = 1;
+        while (total != nbVertices) {
+            // Pour chaque sommet
+            for (int i = 1; i <= nbVertices; i++) {
+                // S'il existe un arc qui relie le sommet courant au sommet i
+                if (edges[courant][i] != 0.0) {
+                    // Et si le sommet i n'a pas encore été visité
+                    if (visité[i] == 0) {
+                        // On détermine sa distance avec le sommet courant 
+                        if (distance[i] > edges[courant][i]) {
+                            distance[i] = edges[courant][i];
+                            précédent[i] = courant;
+                        }
+                    }
+                }
+            }
+            coûtmin = Double.MAX_VALUE;
+            // On prend ensuite comme sommet courant l'arc de valeur minimal
+            for (int i = 1; i <= nbVertices; i++) {
+                if (visité[i] == 0) {
+                    if (distance[i] < coûtmin) {
+                        coûtmin = distance[i];
+                        courant = i;
+                    }
+                }
+            }
+            visité[courant] = 1;
+            total++;
+        }
+        // On convertit le résultat en GrapheMatrice
+        GrapheMatrice resultat = new GrapheMatrice();
+        resultat.nbVertices = nbVertices;
+        resultat.nbEdges = nbVertices - 1;
+        resultat.edges = new double[nbVertices][nbVertices];
+        for (int i = 1; i <= nbVertices; i++) {
+            resultat.edges[i][précédent[i]] = distance[i];
+            resultat.edges[précédent[i]][i] = distance[i];
             // Copie des noms
             // /!\ A VERIFIER /!\
             System.arraycopy(vertices, 0, resultat.vertices, 0, nbVertices);
