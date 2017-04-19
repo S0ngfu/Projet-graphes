@@ -67,7 +67,7 @@ class GrapheReader extends FileInputStream {
 public abstract class Graphe {
 
     protected String KEY;
-    protected int n, m;
+    protected int nbVertices, nbEdges;
 
     public class Vertices {
 

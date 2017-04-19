@@ -3,8 +3,6 @@ import java.util.Stack;
 
 public class GrapheFsAps extends Graphe {
 
-    public int nbVertices;
-
     public Edges[] fs;
     public int[] aps;
 
