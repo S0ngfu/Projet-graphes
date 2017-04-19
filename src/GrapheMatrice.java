@@ -101,8 +101,7 @@ public class GrapheMatrice extends Graphe {
     }
 
     // Retourne un arbre recouvrant minimal d'un graphe non orienté
-    // Le paramètre est la racine à partir de laquelle on créera cet arbre
-    public GrapheMatrice prim(int racine) {
+    public GrapheMatrice prim() {
         int[] visité = new int[nbVertices];
         int[] précédent = new int[nbVertices];
         int courant, total;
