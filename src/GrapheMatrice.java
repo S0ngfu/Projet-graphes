@@ -102,22 +102,21 @@ public class GrapheMatrice extends Graphe {
 
     // Retourne un arbre recouvrant minimal d'un graphe non orienté
     public GrapheMatrice prim() {
-        int[] visité = new int[nbVertices];
+        boolean[] visité = new boolean[nbVertices];
         int[] précédent = new int[nbVertices];
         int courant, total;
         double[] distance = new double[nbVertices];
         double coûtmin;
-        courant = 1;
+        courant = 0;
         distance[courant] = 0;
-        total = 1;
-        visité[courant] = 1;
+        total = 0;
         while (total != nbVertices) {
             // Pour chaque sommet
-            for (int i = 1; i <= nbVertices; i++) {
+            for (int i = 0; i < nbVertices; i++) {
                 // S'il existe un arc qui relie le sommet courant au sommet i
                 if (edges[courant][i] != 0.0) {
                     // Et si le sommet i n'a pas encore été visité
-                    if (visité[i] == 0) {
+                    if (!visité[i]) {
                         // On détermine sa distance avec le sommet courant 
                         if (distance[i] > edges[courant][i]) {
                             distance[i] = edges[courant][i];
@@ -128,15 +127,15 @@ public class GrapheMatrice extends Graphe {
             }
             coûtmin = Double.MAX_VALUE;
             // On prend ensuite comme sommet courant l'arc de valeur minimal
-            for (int i = 1; i <= nbVertices; i++) {
-                if (visité[i] == 0) {
+            for (int i = 0; i < nbVertices; i++) {
+                if (!visité[i]) {
                     if (distance[i] < coûtmin) {
                         coûtmin = distance[i];
                         courant = i;
                     }
                 }
             }
-            visité[courant] = 1;
+            visité[courant] = true;
             total++;
         }
         // On convertit le résultat en GrapheMatrice
@@ -144,7 +143,7 @@ public class GrapheMatrice extends Graphe {
         resultat.nbVertices = nbVertices;
         resultat.nbEdges = nbVertices - 1;
         resultat.edges = new double[nbVertices][nbVertices];
-        for (int i = 1; i <= nbVertices; i++) {
+        for (int i = 1; i < nbVertices; i++) {
             resultat.edges[i][précédent[i]] = distance[i];
             resultat.edges[précédent[i]][i] = distance[i];
             // Copie des noms
