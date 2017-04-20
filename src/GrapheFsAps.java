@@ -63,7 +63,7 @@ public class GrapheFsAps extends Graphe {
 
     public double[][] mat_dist() {
         double[][] mat = new double[nbVertices + 1][nbVertices + 1];
-        for (int i = 1; i < nbVertices + 1; i++) 
+        for (int i = 1; i < nbVertices + 1; i++)
         {
             mat[i] = distance(i);
         }
@@ -127,14 +127,12 @@ public class GrapheFsAps extends Graphe {
     {
         for(int i = aps[s]; fs[i].id != 0; i++)
         {
-                //Insérer une fonction de traitement
-                //Exemple, un print
-                System.out.print(fs[i].id + " ");
-                if(!alreadydone[s])
-                {
-                    alreadydone[s] = true;
-                    parcourspreordrerec(fs[i].id, alreadydone);
-                }
+            //Insérer une fonction de traitement
+            //Exemple, un print
+            System.out.print(fs[i].id + " ");
+            alreadydone[s] = true;
+            if(!alreadydone[fs[i].id])
+                parcourspreordrerec(fs[i].id, alreadydone);
         }
     }
     
@@ -147,37 +145,34 @@ public class GrapheFsAps extends Graphe {
     public void parcourspostordrerec(int s, boolean[] alreadydone)
     {
         if(s != aps.length - 1)
+        {
             for(int i = aps[s + 1] - 2; fs[i].id != 0; i--)
             {
-                
-                    //Insérer une fonction de traitement
-                    //Exemple, un print
-                    System.out.print(fs[i].id + " ");
-                if(!alreadydone[s])
-                {
-                    alreadydone[s] = true;
+                //Insérer une fonction de traitement
+                //Exemple, un print
+                System.out.print(fs[i].id + " ");
+                alreadydone[s] = true;
+                if(!alreadydone[fs[i].id])
                     parcourspostordrerec(fs[i].id, alreadydone);
-                }
             }
+        }
         else
+        {
             for(int i = fs.length - 2; fs[i].id != 0; i--)
             {
-                
-                    //Insérer une fonction de traitement
-                    //Exemple, un print
-                    System.out.print(fs[i].id + " ");
-                if(!alreadydone[s])
-                {
-                    alreadydone[s] = true;
+                //Insérer une fonction de traitement
+                //Exemple, un print
+                System.out.print(fs[i].id + " ");
+                alreadydone[s] = true;
+                if(!alreadydone[fs[i].id])
                     parcourspostordrerec(fs[i].id, alreadydone);
-                }
             }
+        }
     }
     
     public void parcoursordre(int s)
     {
         boolean[] alreadydone = new boolean[nbVertices + 1];
-        Arrays.fill(alreadydone, false);
         for(int i = aps[s + 1] - 1; fs[i].id != 0; i--)
         {
             if(!alreadydone[fs[i].id])
