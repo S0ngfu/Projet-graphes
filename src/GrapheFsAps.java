@@ -36,10 +36,11 @@ public class GrapheFsAps extends Graphe {
         return ret;
     }
 
-    public double[] distance(int s) {
+    public double[] distance(int s) 
+    {
         int dist = 0;
-        double[] d = new double[aps[0] + 1];
-        for (int i = 0; i < d.length; i++) {
+        double[] d = new double[nbVertices + 1];
+        for (int i = 0; i < nbVertices + 1; i++) {
             d[i] = -1;
         }
         d[s] = dist;
@@ -47,7 +48,8 @@ public class GrapheFsAps extends Graphe {
         return d;
     }
 
-    public double[] distrec(int s, double dist, double[] d) {
+    public double[] distrec(int s, double dist, double[] d) 
+    {
         for (int i = aps[s]; fs[i].id != 0; i++) // should be fs[i] != null non ??
         {
             if ((d[fs[i].id] > (dist + fs[i].weight)) || d[fs[i].id] == -1) {
@@ -59,9 +61,9 @@ public class GrapheFsAps extends Graphe {
     }
 
     public double[][] mat_dist() {
-        int n = aps[0];
-        double[][] mat = new double[n + 1][n + 1];
-        for (int i = 1; i < n + 1; i++) {
+        double[][] mat = new double[nbVertices + 1][nbVertices + 1];
+        for (int i = 1; i < nbVertices + 1; i++) 
+        {
             mat[i] = distance(i);
         }
         return mat;
@@ -114,4 +116,48 @@ public class GrapheFsAps extends Graphe {
         return ddi;
     }
 
+    public void parcourspreordre(int i)
+    {
+        //Insérer un fonction de traitement
+        //exemple un println
+        System.out.print(fs[i].id + " ");
+        if (i < nbEdges + nbVertices - 1)
+        {
+            if(fs[i + 1].id != 0)
+                parcourspreordre(i + 1);
+            else
+                parcourspreordre(i + 2);
+        }
+    }
+    
+    public void parcourspostordre(int i)
+    {
+        if (i < nbEdges + nbVertices - 1)
+        {
+            if(fs[i + 1].id != 0)
+                parcourspreordre(i + 1);
+            else
+                parcourspreordre(i + 2);
+            //Insérer un fonction de traitement
+            //exemple un println
+            System.out.print(fs[i].id + " ");
+        }
+    }
+    
+    public void parcoursordre(int i)
+    {
+        if (i < nbEdges + nbVertices - 1)
+        {
+            if(fs[i + 1].id != 0)
+            {
+                parcourspreordre(i + 1);
+                //Insérer un fonction de traitement
+                //exemple un println
+                System.out.print(fs[i].id + " ");
+            }
+            else
+                parcourspreordre(i + 2);
+        }
+    }
+    
 }
