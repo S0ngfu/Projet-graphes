@@ -156,7 +156,7 @@ public class GrapheMatrice extends Graphe {
 
     public int[] codagePrufer() {
         int[] p = new int[nbVertices + 1];
-        p[0] = nbVertices - 2;
+        p[0] = nbVertices;
 
         for (int i = 1; i <= nbVertices; i++) {
             for (int j = i + 1; j <= nbVertices; j++) {
@@ -169,7 +169,7 @@ public class GrapheMatrice extends Graphe {
             int i;
             for (i = 1; edges[i][0] != 1 && i < nbVertices; i++);
             int j;
-            for (j = 1; edges[i][j] != 1 && i < nbVertices; j++);
+            for (j = 1; edges[i][j] != 1 && j < nbVertices; j++);
             p[k++] = j;
 
             edges[i][0] = 0;
@@ -181,22 +181,20 @@ public class GrapheMatrice extends Graphe {
     }
 
     public void decodagePrufer(int p[]) {
-        int m = p[0], n = m + 2;
-        edges[0][0] = n;
-        edges[0][1] = n - 1;
+        int nbEdges = p[0] - 2, nbVertices = nbEdges + 2;
 
-        int[] s = new int[n + 1];
-        boolean[] b = new boolean[n + 1];
+        int[] s = new int[nbVertices + 1];
+        boolean[] b = new boolean[nbVertices + 1];
 
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i <= nbVertices; i++) {
             s[i] = 0;
             b[i] = true;
         }
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i <= nbVertices; i++) {
             s[p[i]]++;
         }
-        for (int k = 1; k <= n; k++) {
-            for (int i = 1; i <= n; i++) {
+        for (int k = 1; k <= nbVertices; k++) {
+            for (int i = 1; i <= nbVertices; i++) {
                 if ((b[i]) && (s[p[i]] == 0)) {
                     edges[i][p[k]] = 1;
                     edges[p[k]][i] = 1;
