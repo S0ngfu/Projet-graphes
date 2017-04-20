@@ -50,7 +50,7 @@ public class GrapheFsAps extends Graphe {
 
     public double[] distrec(int s, double dist, double[] d) 
     {
-        for (int i = aps[s]; fs[i].id != 0; i++) // should be fs[i] != null non ??
+        for (int i = aps[s]; fs[i].id != 0; i++)
         {
             if ((d[fs[i].id] > (dist + fs[i].weight)) || d[fs[i].id] == -1) {
                 d[fs[i].id] = dist + fs[i].weight;
@@ -116,47 +116,77 @@ public class GrapheFsAps extends Graphe {
         return ddi;
     }
 
-    public void parcourspreordre(int i)
+    public void parcourspreordre(int s)
     {
-        //Insérer un fonction de traitement
-        //exemple un println
-        System.out.print(fs[i].id + " ");
-        if (i < nbEdges + nbVertices - 1)
-        {
-            if(fs[i + 1].id != 0)
-                parcourspreordre(i + 1);
-            else
-                parcourspreordre(i + 2);
-        }
+        boolean[] alreadydone = new boolean[nbVertices + 1];
+        parcourspreordrerec(s, alreadydone);
     }
     
-    public void parcourspostordre(int i)
+    public void parcourspreordrerec(int s, boolean[] alreadydone)
     {
-        if (i < nbEdges + nbVertices - 1)
+        for(int i = aps[s]; fs[i].id != 0; i++)
         {
-            if(fs[i + 1].id != 0)
-                parcourspreordre(i + 1);
-            else
-                parcourspreordre(i + 2);
-            //Insérer un fonction de traitement
-            //exemple un println
-            System.out.print(fs[i].id + " ");
-        }
-    }
-    
-    public void parcoursordre(int i)
-    {
-        if (i < nbEdges + nbVertices - 1)
-        {
-            if(fs[i + 1].id != 0)
-            {
-                parcourspreordre(i + 1);
-                //Insérer un fonction de traitement
-                //exemple un println
+                //Insérer une fonction de traitement
+                //Exemple, un print
                 System.out.print(fs[i].id + " ");
+                if(!alreadydone[s])
+                {
+                    alreadydone[s] = true;
+                    parcourspreordrerec(fs[i].id, alreadydone);
+                }
+        }
+    }
+    
+    public void parcourspostordre(int s)
+    {
+        boolean[] alreadydone = new boolean[nbVertices + 1];
+        parcourspostordrerec(s, alreadydone);
+    }
+    
+    public void parcourspostordrerec(int s, boolean[] alreadydone)
+    {
+        if(s != aps.length - 1)
+            for(int i = aps[s + 1] - 2; fs[i].id != 0; i--)
+            {
+                
+                    //Insérer une fonction de traitement
+                    //Exemple, un print
+                    System.out.print(fs[i].id + " ");
+                if(!alreadydone[s])
+                {
+                    alreadydone[s] = true;
+                    parcourspostordrerec(fs[i].id, alreadydone);
+                }
             }
-            else
-                parcourspreordre(i + 2);
+        else
+            for(int i = fs.length - 2; fs[i].id != 0; i--)
+            {
+                
+                    //Insérer une fonction de traitement
+                    //Exemple, un print
+                    System.out.print(fs[i].id + " ");
+                if(!alreadydone[s])
+                {
+                    alreadydone[s] = true;
+                    parcourspostordrerec(fs[i].id, alreadydone);
+                }
+            }
+    }
+    
+    public void parcoursordre(int s)
+    {
+        boolean[] alreadydone = new boolean[nbVertices + 1];
+        Arrays.fill(alreadydone, false);
+        for(int i = aps[s + 1] - 1; fs[i].id != 0; i--)
+        {
+            if(!alreadydone[fs[i].id])
+            {
+                //Insérer un fonction de traitement
+                //Exemple, un print
+                System.out.print(fs[i].id + " ");
+                alreadydone[fs[i].id] = true;
+                parcoursordre(fs[i].id);
+            }
         }
     }
     
