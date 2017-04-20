@@ -221,4 +221,45 @@ public class GrapheFsAps extends Graphe {
         }
         return pred;
     }
+
+    public int[] bellmanford(int s) {
+        double[] distances = new double[nbVertices];
+        int[] pred = new int[nbVertices];
+        int bsup;
+        // Initialisation
+        for (int i = 0; i < nbVertices; i++) {
+            distances[i] = Double.MAX_VALUE;
+            pred[i] = -1;
+        }
+        distances[s] = 0;
+        // En enlèves des arrêtes en boucle
+        for (int i = 0; i < nbVertices; i++) {
+            if (i == nbVertices - 1) {
+                bsup = nbEdges;
+            } else {
+                bsup = aps[i + 1];
+            }
+            for (int j = fs[aps[i]].id; j < bsup; j++) {
+                if (distances[i] + fs[j].weight < distances[fs[j].id]) {
+                    distances[fs[j].id] = distances[i] + fs[j].weight;
+                    pred[fs[j].id] = i;
+                }
+            }
+        }
+        // On regarde s'il n'y a pas de cycles négatifs
+        for (int i = 0; i < nbVertices; i++) {
+            if (i == nbVertices - 1) {
+                bsup = nbEdges;
+            } else {
+                bsup = aps[i + 1];
+            }
+            for (int j = fs[aps[i]].id; j < bsup; j++) {
+                if (distances[i] + fs[j].weight < distances[fs[j].id]) {
+                    System.out.println("Erreur, le graphe contient un cycle négatif");
+                }
+            }
+        }
+
+        return pred;
+    }
 }
