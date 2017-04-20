@@ -210,4 +210,31 @@ public class GrapheMatrice extends Graphe {
         edges[i][j] = 1;
         edges[j][i] = 1;
     }
+
+    public boolean dantzig() {
+        double x;
+        for (int k = 0; k < nbVertices; k++) {
+            for (int i = 0; i <= k; i++) {
+                for (int j = 0; j <= k; j++) {
+                    if ((x = edges[i][j] + edges[j][k + 1]) < edges[i][k + 1]) {
+                        edges[i][k + 1] = x;
+                    }
+                    if ((x = edges[k + 1][j] + edges[j][i]) < edges[k + 1][i]) {
+                        edges[k + 1][i] = x;
+                    }
+                }
+                if (edges[k + 1][i] + edges[i][k + 1] < 0) {
+                    return false; //circuit absorbant
+                }
+            }
+            for (int i = 0; i <= k; i++) {
+                for (int j = 0; j <= k; j++) {
+                    if ((x = edges[i][k + 1] + edges[k + 1][j]) < edges[i][j]) {
+                        edges[i][j] = x;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
