@@ -21,8 +21,11 @@ public class GrapheFsAps extends Graphe {
         double[][] tmpmat = new double[nbVertices + 1][nbVertices + 1];
         tmp.nbEdges = nbEdges;
         tmp.nbVertices = nbVertices;
-        int k = 1;
         for(int i = 1; i < nbVertices + 1; i++)
+            for(int j = 1; j < nbVertices + 1; j++)
+                tmpmat[i][j] = 0;
+        int k = 1;
+        for(int i = 1; i < nbEdges + nbVertices; i++)
         {
             if(fs[i].id != 0)
                 tmpmat[fs[i].id][k] = fs[i].weight;
