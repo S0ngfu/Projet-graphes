@@ -1,5 +1,4 @@
 
-import java.util.Arrays;
 import java.util.Stack;
 
 public class GrapheFsAps extends Graphe {
@@ -37,11 +36,10 @@ public class GrapheFsAps extends Graphe {
         return ret;
     }
 
-    public double[] distance(int s) 
-    {
+    public double[] distance(int s) {
         int dist = 0;
-        double[] d = new double[nbVertices + 1];
-        for (int i = 0; i < nbVertices + 1; i++) {
+        double[] d = new double[nbVertices];
+        for (int i = 0; i < nbVertices; i++) {
             d[i] = -1;
         }
         d[s] = dist;
@@ -49,10 +47,8 @@ public class GrapheFsAps extends Graphe {
         return d;
     }
 
-    public double[] distrec(int s, double dist, double[] d) 
-    {
-        for (int i = aps[s]; fs[i].id != 0; i++)
-        {
+    public double[] distrec(int s, double dist, double[] d) {
+        for (int i = aps[s]; fs[i].id != 0; i++) {
             if ((d[fs[i].id] > (dist + fs[i].weight)) || d[fs[i].id] == -1) {
                 d[fs[i].id] = dist + fs[i].weight;
                 d = distrec(fs[i].id, d[fs[i].id], d);
@@ -62,9 +58,8 @@ public class GrapheFsAps extends Graphe {
     }
 
     public double[][] mat_dist() {
-        double[][] mat = new double[nbVertices + 1][nbVertices + 1];
-        for (int i = 1; i < nbVertices + 1; i++)
-        {
+        double[][] mat = new double[nbVertices][nbVertices];
+        for (int i = 0; i < nbVertices; i++) {
             mat[i] = distance(i);
         }
         return mat;
@@ -117,66 +112,58 @@ public class GrapheFsAps extends Graphe {
         return ddi;
     }
 
-    public void parcourspreordre(int s)
-    {
+    public void parcourspreordre(int s) {
         boolean[] alreadydone = new boolean[nbVertices + 1];
         parcourspreordrerec(s, alreadydone);
     }
-    
-    public void parcourspreordrerec(int s, boolean[] alreadydone)
-    {
-        for(int i = aps[s]; fs[i].id != 0; i++)
-        {
+
+    public void parcourspreordrerec(int s, boolean[] alreadydone) {
+        for (int i = aps[s]; fs[i].id != 0; i++) {
             //Insérer une fonction de traitement
             //Exemple, un print
             System.out.print(fs[i].id + " ");
             alreadydone[s] = true;
-            if(!alreadydone[fs[i].id])
+            if (!alreadydone[fs[i].id]) {
                 parcourspreordrerec(fs[i].id, alreadydone);
+            }
         }
     }
-    
-    public void parcourspostordre(int s)
-    {
+
+    public void parcourspostordre(int s) {
         boolean[] alreadydone = new boolean[nbVertices + 1];
         parcourspostordrerec(s, alreadydone);
     }
-    
-    public void parcourspostordrerec(int s, boolean[] alreadydone)
-    {
-        if(s != aps.length - 1)
-        {
-            for(int i = aps[s + 1] - 2; fs[i].id != 0; i--)
-            {
+
+    public void parcourspostordrerec(int s, boolean[] alreadydone) {
+        if (s != aps.length - 1) {
+            for (int i = aps[s + 1] - 2; fs[i].id != 0; i--) {
+
                 //Insérer une fonction de traitement
                 //Exemple, un print
                 System.out.print(fs[i].id + " ");
                 alreadydone[s] = true;
-                if(!alreadydone[fs[i].id])
+                if (!alreadydone[fs[i].id]) {
                     parcourspostordrerec(fs[i].id, alreadydone);
+                }
             }
-        }
-        else
-        {
-            for(int i = fs.length - 2; fs[i].id != 0; i--)
-            {
+        } else {
+            for (int i = fs.length - 2; fs[i].id != 0; i--) {
+
                 //Insérer une fonction de traitement
                 //Exemple, un print
                 System.out.print(fs[i].id + " ");
                 alreadydone[s] = true;
-                if(!alreadydone[fs[i].id])
+                if (!alreadydone[fs[i].id]) {
                     parcourspostordrerec(fs[i].id, alreadydone);
+                }
             }
         }
     }
-    
-    public void parcoursordre(int s)
-    {
+
+    public void parcoursordre(int s) {
         boolean[] alreadydone = new boolean[nbVertices + 1];
-        for(int i = aps[s + 1] - 1; fs[i].id != 0; i--)
-        {
-            if(!alreadydone[fs[i].id])
-            {
+        for (int i = aps[s + 1] - 1; fs[i].id != 0; i--) {
+            if (!alreadydone[fs[i].id]) {
                 //Insérer un fonction de traitement
                 //Exemple, un print
                 System.out.print(fs[i].id + " ");
@@ -185,5 +172,53 @@ public class GrapheFsAps extends Graphe {
             }
         }
     }
-    
+
+    public int[] dijkstra(int s) {
+        int cpt, j = 0, k, bsup;
+        double max, v;
+        double[] distances = new double[nbVertices];
+        int[] pred = new int[nbVertices];
+        boolean[] dansS = new boolean[nbVertices];
+        if (s == nbVertices) {
+            bsup = nbEdges;
+        } else {
+            bsup = aps[s + 1];
+        }
+        for (int i = fs[aps[s]].id; i < bsup; i++) {
+            distances[i] = fs[i].weight;
+            if (fs[i].weight != Double.MAX_VALUE) {
+                pred[i] = s;
+            } else {
+                pred[i] = -1;
+            }
+            dansS[i] = true;
+        }
+        dansS[s] = false;
+        distances[s] = 0;
+        cpt = nbVertices - 1;
+        while (cpt > 0) {
+            max = Double.MAX_VALUE;
+            for (int i = 0; i < nbVertices; i++) {
+                if (dansS[i] && distances[i] < max) {
+                    max = distances[i];
+                    j = i;
+                }
+                if (max == Double.MAX_VALUE) {
+                    break;
+                }
+                dansS[j] = false;
+                cpt--;
+                for (int h = aps[j]; (k = fs[h].id) != 0; h++) {
+                    if (dansS[k]) {
+                        v = distances[j] + fs[k].weight;
+                        if (v < distances[k]) {
+                            distances[k] = v;
+                            pred[k] = j;
+                        }
+                    }
+                }
+            }
+        }
+        return pred;
+    }
 }
