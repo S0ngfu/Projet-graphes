@@ -1,4 +1,5 @@
 
+import java.util.Arrays;
 import java.util.Stack;
 
 public class GrapheFsAps extends Graphe {
@@ -36,10 +37,11 @@ public class GrapheFsAps extends Graphe {
         return ret;
     }
 
-    public double[] distance(int s) {
+    public double[] distance(int s) 
+    {
         int dist = 0;
-        double[] d = new double[nbVertices];
-        for (int i = 0; i < nbVertices; i++) {
+        double[] d = new double[nbVertices + 1];
+        for (int i = 0; i < nbVertices + 1; i++) {
             d[i] = -1;
         }
         d[s] = dist;
@@ -47,8 +49,10 @@ public class GrapheFsAps extends Graphe {
         return d;
     }
 
-    public double[] distrec(int s, double dist, double[] d) {
-        for (int i = aps[s]; fs[i].id != 0; i++) {
+    public double[] distrec(int s, double dist, double[] d) 
+    {
+        for (int i = aps[s]; fs[i].id != 0; i++)
+        {
             if ((d[fs[i].id] > (dist + fs[i].weight)) || d[fs[i].id] == -1) {
                 d[fs[i].id] = dist + fs[i].weight;
                 d = distrec(fs[i].id, d[fs[i].id], d);
@@ -58,8 +62,9 @@ public class GrapheFsAps extends Graphe {
     }
 
     public double[][] mat_dist() {
-        double[][] mat = new double[nbVertices][nbVertices];
-        for (int i = 0; i < nbVertices; i++) {
+        double[][] mat = new double[nbVertices + 1][nbVertices + 1];
+        for (int i = 1; i < nbVertices + 1; i++)
+        {
             mat[i] = distance(i);
         }
         return mat;
@@ -112,58 +117,66 @@ public class GrapheFsAps extends Graphe {
         return ddi;
     }
 
-    public void parcourspreordre(int s) {
+    public void parcourspreordre(int s)
+    {
         boolean[] alreadydone = new boolean[nbVertices + 1];
         parcourspreordrerec(s, alreadydone);
     }
-
-    public void parcourspreordrerec(int s, boolean[] alreadydone) {
-        for (int i = aps[s]; fs[i].id != 0; i++) {
+    
+    public void parcourspreordrerec(int s, boolean[] alreadydone)
+    {
+        for(int i = aps[s]; fs[i].id != 0; i++)
+        {
             //Insérer une fonction de traitement
             //Exemple, un print
             System.out.print(fs[i].id + " ");
             alreadydone[s] = true;
-            if (!alreadydone[fs[i].id]) {
+            if(!alreadydone[fs[i].id])
                 parcourspreordrerec(fs[i].id, alreadydone);
-            }
         }
     }
-
-    public void parcourspostordre(int s) {
+    
+    public void parcourspostordre(int s)
+    {
         boolean[] alreadydone = new boolean[nbVertices + 1];
         parcourspostordrerec(s, alreadydone);
     }
-
-    public void parcourspostordrerec(int s, boolean[] alreadydone) {
-        if (s != aps.length - 1) {
-            for (int i = aps[s + 1] - 2; fs[i].id != 0; i--) {
-
+    
+    public void parcourspostordrerec(int s, boolean[] alreadydone)
+    {
+        if(s != aps.length - 1)
+        {
+            for(int i = aps[s + 1] - 2; fs[i].id != 0; i--)
+            {
                 //Insérer une fonction de traitement
                 //Exemple, un print
                 System.out.print(fs[i].id + " ");
                 alreadydone[s] = true;
-                if (!alreadydone[fs[i].id]) {
+                if(!alreadydone[fs[i].id])
                     parcourspostordrerec(fs[i].id, alreadydone);
-                }
             }
-        } else {
-            for (int i = fs.length - 2; fs[i].id != 0; i--) {
-
+        }
+        else
+        {
+            for(int i = fs.length - 2; fs[i].id != 0; i--)
+            {
                 //Insérer une fonction de traitement
                 //Exemple, un print
                 System.out.print(fs[i].id + " ");
                 alreadydone[s] = true;
-                if (!alreadydone[fs[i].id]) {
+                if(!alreadydone[fs[i].id])
                     parcourspostordrerec(fs[i].id, alreadydone);
-                }
             }
         }
     }
-
-    public void parcoursordre(int s) {
+    
+    public void parcoursordre(int s)
+    {
         boolean[] alreadydone = new boolean[nbVertices + 1];
-        for (int i = aps[s + 1] - 1; fs[i].id != 0; i--) {
-            if (!alreadydone[fs[i].id]) {
+        for(int i = aps[s + 1] - 1; fs[i].id != 0; i--)
+        {
+            if(!alreadydone[fs[i].id])
+            {
                 //Insérer un fonction de traitement
                 //Exemple, un print
                 System.out.print(fs[i].id + " ");
