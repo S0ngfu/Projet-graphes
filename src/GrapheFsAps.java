@@ -15,6 +15,25 @@ public class GrapheFsAps extends Graphe {
 
     }
 
+    public GrapheMatrice fsaps2matrice()
+    {
+        GrapheMatrice tmp = new GrapheMatrice();
+        double[][] tmpmat = new double[nbVertices + 1][nbVertices + 1];
+        tmp.nbEdges = nbEdges;
+        tmp.nbVertices = nbVertices;
+        int k = 1;
+        for(int i = 1; i < nbVertices + 1; i++)
+        {
+            if(fs[i].id != 0)
+                tmpmat[fs[i].id][k] = fs[i].weight;
+            else
+                k++;
+        }
+        tmp.edges = tmpmat;
+        
+        return tmp;
+    }
+    
     @Override
     public String toString() {
         String ret = "Nombre de sommets : " + nbVertices + "\n Arêtes :\n";
