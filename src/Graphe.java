@@ -2,6 +2,7 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 class GrapheReader extends FileInputStream {
 
@@ -121,7 +122,27 @@ public abstract class Graphe {
 
     public static GrapheFsAps getGrapheFsAps(GrapheListes data) {
 
-        return new GrapheFsAps();
+        GrapheFsAps fsaps = new GrapheFsAps();
+        fsaps.vertices = data.vertices.clone();
+        fsaps.nbEdges = data.nbEdges;
+        fsaps.nbVertices = data.nbVertices;
+        fsaps.aps = new int[fsaps.nbEdges+1];
+        fsaps.fs = new Edges[fsaps.nbVertices+1];
+
+        Edges blank = new Edges(0,-1.0);
+        int i=0, j=1;
+        for(ArrayList<Edges> tmp : data.data) {
+            fsaps.fs[i] = blank;
+            i++;
+            fsaps.aps[j] = i;
+            for(Edges tmpedg : tmp) {
+                fsaps.fs[i] = tmpedg;
+                i++;
+            }
+            j++;
+        }
+
+        return fsaps;
     }
 
     public static GrapheMatrice getGrapheMatrice(GrapheFsAps data) {
