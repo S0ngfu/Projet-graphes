@@ -12,5 +12,12 @@ public class GrapheListes extends Graphe {
     GrapheListes(String filename) {
 
     }
+    
+    @Override
+    public String toString() {
+        String str = "";
+        str += data.toString();
+        return str;
+    }
 
 }

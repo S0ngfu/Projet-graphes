@@ -40,15 +40,15 @@ public class GrapheFsAps extends Graphe {
     @Override
     public String toString() {
         String ret = "Nombre de sommets : " + nbVertices + "\n Arêtes :\n";
-        int j = 0;
-        for (int i = 0; i < nbVertices; i++) {
+        int j = 1;
+        for (int i = 1; i < nbVertices + 1; i++) {
             if (super.vertices != null) {
                 ret += i + 1 + "(" + super.vertices[i] + ") : ";
             } else {
                 ret += i + 1 + " : ";
             }
 
-            while (fs.length > j && fs[j] != null) {
+            while (fs.length > j && fs[j].id != 0) {
                 ret += fs[j].id + 1 + ";";
                 j++;
             }
@@ -95,13 +95,13 @@ public class GrapheFsAps extends Graphe {
     public int[] det_rang() {
 
         // il faut que le graphe soit orienté!!!
-        int[] rang = new int[nbVertices];
+        int[] rang = new int[nbVertices + 1];
         int[] ddi = ddi();
 
         Stack<Integer> pile = new Stack<>();
         boolean circtuit = true;
 
-        for (int i = 0; i < nbVertices; i++) {
+        for (int i = 1; i < nbVertices + 1; i++) {
             if (ddi[i] == 0) {
                 circtuit = false;
                 rang[i] = 0;
@@ -112,12 +112,12 @@ public class GrapheFsAps extends Graphe {
         if (!circtuit) {
             int r = 1; //correspond au rang actuel
 
-            for (int i = 0; i < nbVertices; i++) {
+            for (int i = 1; i < nbVertices + 1; i++) {
 
             }
 
         } else {
-            for (int i = 0; i < rang.length; i++) {
+            for (int i = 1; i < rang.length; i++) {
                 rang[i] = Integer.MAX_VALUE;
             }
         }
@@ -191,22 +191,6 @@ public class GrapheFsAps extends Graphe {
             }
         }
     }
-    
-    public void parcoursordre(int s)
-    {
-        boolean[] alreadydone = new boolean[nbVertices + 1];
-        for(int i = aps[s + 1] - 1; fs[i].id != 0; i--)
-        {
-            if(!alreadydone[fs[i].id])
-            {
-                //Insérer un fonction de traitement
-                //Exemple, un print
-                System.out.print(fs[i].id + " ");
-                alreadydone[fs[i].id] = true;
-                parcoursordre(fs[i].id);
-            }
-        }
-    }
 
     public int[] dijkstra(int s) {
         int cpt, j = 0, k, bsup;
@@ -243,7 +227,7 @@ public class GrapheFsAps extends Graphe {
                 }
                 dansS[j] = false;
                 cpt--;
-                for (int h = aps[j]; (k = fs[h].id) != 0; h++) {
+                for (int h = aps[j + 1]; (k = fs[h].id) != 0; h++) {
                     if (dansS[k]) {
                         v = distances[j] + fs[k].weight;
                         if (v < distances[k]) {
@@ -268,7 +252,7 @@ public class GrapheFsAps extends Graphe {
         }
         distances[s] = 0;
         // En enlèves des arrêtes en boucle
-        for (int i = 0; i < nbVertices; i++) {
+        for (int i = 1; i < nbVertices + 1; i++) {
             if (i == nbVertices - 1) {
                 bsup = nbEdges;
             } else {
@@ -282,7 +266,7 @@ public class GrapheFsAps extends Graphe {
             }
         }
         // On regarde s'il n'y a pas de cycles négatifs
-        for (int i = 0; i < nbVertices; i++) {
+        for (int i = 1; i < nbVertices + 1; i++) {
             if (i == nbVertices - 1) {
                 bsup = nbEdges;
             } else {
