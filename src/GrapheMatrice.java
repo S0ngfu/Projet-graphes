@@ -12,13 +12,34 @@ public class GrapheMatrice extends Graphe {
     GrapheMatrice(String filename) {
 
     }
+    
+    public GrapheListes mat2list()
+    {
+        GrapheListes tmp = new GrapheListes();
+        tmp.nbEdges = nbEdges;
+        tmp.nbVertices = nbVertices;
+        ArrayList<ArrayList<Edges>> tmpdata = new ArrayList<ArrayList<Edges>>(nbEdges);
+        for(int i = 1; i < nbVertices + 1; i++)
+        {
+            ArrayList <Edges> tmpedge = new ArrayList <Edges>(nbVertices);
+            for(int j = 1; j < nbVertices + 1; j++)
+                if(edges[i][j] != 0)
+                {
+                    Edges test = new Edges(j, edges[i][j]);
+                    tmpedge.add(test);
+                }
+            tmpdata.add(tmpedge);
+        }
+        tmp.data = tmpdata;
+        return tmp;
+    }
 
     // Retourne l'index de l'arrête qui a le poids le plus faible
     public int getIndexPoidsMin(double[] matrice) {
         double min = Double.MAX_VALUE;
         int index = -1;
 
-        for (int i = 0; i < nbVertices; i++) {
+        for (int i = 1; i < nbVertices + 1; i++) {
             if (matrice[i] > 0 && matrice[i] < min) {
                 min = matrice[i];
                 index = i;
@@ -31,7 +52,7 @@ public class GrapheMatrice extends Graphe {
     // Retourne un arbre recouvrant minimal d'un graphe non orienté
     // Version modifiée de : http://www.script-tout-fait.com/fr/fichier-Algorithme-de-Kruskal-obtenir-un-abre-couvrant-minimal-692.html
     public GrapheMatrice kruskal() {
-        double[] matrice = new double[nbVertices * nbVertices];
+        double[] matrice = new double[nbVertices + 1 * nbVertices + 1];
         int index = -2;
         int row, col, rowListe, colListe, rowIndex, colIndex;
         boolean pasBon;
@@ -39,7 +60,7 @@ public class GrapheMatrice extends Graphe {
         ArrayList<Integer> res = new ArrayList<>();
 
         // Initialisation d'une matrice à une dimension à partir du graphe
-        for (int i = 0; i < nbVertices; i++) {
+        for (int i = 1; i < nbVertices + 1; i++) {
             System.arraycopy(edges[i], 0, matrice, i * nbVertices, nbVertices);
         }
 
@@ -88,10 +109,10 @@ public class GrapheMatrice extends Graphe {
         GrapheMatrice resultat = new GrapheMatrice();
         resultat.nbVertices = nbVertices;
         resultat.nbEdges = nbVertices - 1;
-        resultat.edges = new double[nbVertices][nbVertices];
+        resultat.edges = new double[nbVertices + 1][nbVertices + 1];
         for (int nb : res) {
-            row = nb / nbVertices;
-            col = nb % nbVertices;
+            row = nb / (nbVertices + 1);
+            col = nb % (nbVertices + 1);
             resultat.edges[row][col] = edges[row][col];
             // Copie des noms
             // /!\ A VERIFIER /!\
@@ -102,17 +123,17 @@ public class GrapheMatrice extends Graphe {
 
     // Retourne un arbre recouvrant minimal d'un graphe non orienté
     public GrapheMatrice prim() {
-        boolean[] visité = new boolean[nbVertices];
-        int[] précédent = new int[nbVertices];
+        boolean[] visité = new boolean[nbVertices + 1];
+        int[] précédent = new int[nbVertices + 1];
         int courant, total;
-        double[] distance = new double[nbVertices];
+        double[] distance = new double[nbVertices + 1];
         double coûtmin;
         courant = 0;
         distance[courant] = 0;
         total = 0;
-        while (total != nbVertices) {
+        while (total != nbVertices + 1) {
             // Pour chaque sommet
-            for (int i = 0; i < nbVertices; i++) {
+            for (int i = 1; i < nbVertices + 1; i++) {
                 // S'il existe un arc qui relie le sommet courant au sommet i
                 if (edges[courant][i] != 0.0) {
                     // Et si le sommet i n'a pas encore été visité
@@ -127,7 +148,7 @@ public class GrapheMatrice extends Graphe {
             }
             coûtmin = Double.MAX_VALUE;
             // On prend ensuite comme sommet courant l'arc de valeur minimal
-            for (int i = 0; i < nbVertices; i++) {
+            for (int i = 1; i < nbVertices + 1; i++) {
                 if (!visité[i]) {
                     if (distance[i] < coûtmin) {
                         coûtmin = distance[i];
@@ -142,13 +163,13 @@ public class GrapheMatrice extends Graphe {
         GrapheMatrice resultat = new GrapheMatrice();
         resultat.nbVertices = nbVertices;
         resultat.nbEdges = nbVertices - 1;
-        resultat.edges = new double[nbVertices][nbVertices];
+        resultat.edges = new double[nbVertices + 1][nbVertices + 1];
         for (int i = 1; i < nbVertices; i++) {
             resultat.edges[i][précédent[i]] = distance[i];
             resultat.edges[précédent[i]][i] = distance[i];
             // Copie des noms
             // /!\ A VERIFIER /!\
-            System.arraycopy(vertices, 0, resultat.vertices, 0, nbVertices);
+            System.arraycopy(vertices, 0, resultat.vertices, 1, nbVertices + 1);
         }
         return resultat;
     }
@@ -180,20 +201,20 @@ public class GrapheMatrice extends Graphe {
     }
 
     public void decodagePrufer(int p[]) {
-        int nbEdges = p[0] - 2, nbVertices = nbEdges + 2;
+        int m = p[0] - 2, n = m + 2;
 
-        int[] s = new int[nbVertices + 1];
-        boolean[] b = new boolean[nbVertices + 1];
+        int[] s = new int[n + 1];
+        boolean[] b = new boolean[n + 1];
 
-        for (int i = 1; i <= nbVertices; i++) {
+        for (int i = 1; i <= n; i++) {
             s[i] = 0;
             b[i] = true;
         }
-        for (int i = 1; i <= nbVertices; i++) {
+        for (int i = 1; i <= n; i++) {
             s[p[i]]++;
         }
-        for (int k = 1; k <= nbVertices; k++) {
-            for (int i = 1; i <= nbVertices; i++) {
+        for (int k = 1; k <= n; k++) {
+            for (int i = 1; i <= n; i++) {
                 if ((b[i]) && (s[p[i]] == 0)) {
                     edges[i][p[k]] = 1;
                     edges[p[k]][i] = 1;
@@ -215,9 +236,9 @@ public class GrapheMatrice extends Graphe {
 
     public boolean dantzig() {
         double x;
-        for (int k = 0; k < nbVertices; k++) {
-            for (int i = 0; i <= k; i++) {
-                for (int j = 0; j <= k; j++) {
+        for (int k = 1; k < nbVertices + 1; k++) {
+            for (int i = 1; i <= k + 1; i++) {
+                for (int j = 1; j <= k + 1; j++) {
                     if ((x = edges[i][j] + edges[j][k + 1]) < edges[i][k + 1]) {
                         edges[i][k + 1] = x;
                     }
@@ -229,8 +250,8 @@ public class GrapheMatrice extends Graphe {
                     return false; //circuit absorbant
                 }
             }
-            for (int i = 0; i <= k; i++) {
-                for (int j = 0; j <= k; j++) {
+            for (int i = 1; i <= k + 1; i++) {
+                for (int j = 1; j <= k + 1; j++) {
                     if ((x = edges[i][k + 1] + edges[k + 1][j]) < edges[i][j]) {
                         edges[i][j] = x;
                     }
