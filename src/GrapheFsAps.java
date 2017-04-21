@@ -19,6 +19,7 @@ public class GrapheFsAps extends Graphe {
     {
         GrapheMatrice tmp = new GrapheMatrice();
         double[][] tmpmat = new double[nbVertices + 1][nbVertices + 1];
+        tmp.vertices = vertices;
         tmp.nbEdges = nbEdges;
         tmp.nbVertices = nbVertices;
         for(int i = 1; i < nbVertices + 1; i++)
@@ -28,7 +29,7 @@ public class GrapheFsAps extends Graphe {
         for(int i = 1; i < nbEdges + nbVertices; i++)
         {
             if(fs[i].id != 0)
-                tmpmat[fs[i].id][k] = fs[i].weight;
+                tmpmat[k][fs[i].id] = fs[i].weight;
             else
                 k++;
         }
@@ -37,19 +38,24 @@ public class GrapheFsAps extends Graphe {
         return tmp;
     }
     
+    public GrapheListes fsaps2list()
+    {
+        return this.fsaps2matrice().mat2list();
+    }
+            
     @Override
     public String toString() {
         String ret = "Nombre de sommets : " + nbVertices + "\n Arêtes :\n";
         int j = 1;
         for (int i = 1; i < nbVertices + 1; i++) {
             if (super.vertices != null) {
-                ret += i + 1 + "(" + super.vertices[i] + ") : ";
+                ret += i + "(" + super.vertices[i] + ") : ";
             } else {
-                ret += i + 1 + " : ";
+                ret += i + " : ";
             }
 
             while (fs.length > j && fs[j].id != 0) {
-                ret += fs[j].id + 1 + ";";
+                ret += fs[j].id + ";";
                 j++;
             }
             j++;

@@ -12,10 +12,24 @@ public class GrapheMatrice extends Graphe {
     GrapheMatrice(String filename) {
 
     }
+    @Override
+    public String toString() {
+        String str = "";
+        for(int i = 1; i < nbVertices + 1; i++)
+        {
+            for(int j = 1; j < nbVertices + 1; j++)
+            {
+                str += edges[i][j] + " ";
+            }
+            str += "\n";
+        }
+        return str;
+    }
     
     public GrapheListes mat2list()
     {
         GrapheListes tmp = new GrapheListes();
+        tmp.vertices = vertices;
         tmp.nbEdges = nbEdges;
         tmp.nbVertices = nbVertices;
         ArrayList<ArrayList<Edges>> tmpdata = new ArrayList<ArrayList<Edges>>(nbEdges);
@@ -32,6 +46,11 @@ public class GrapheMatrice extends Graphe {
         }
         tmp.data = tmpdata;
         return tmp;
+    }
+    
+    public GrapheFsAps mat2fsaps()
+    {
+        return this.mat2list().list2fsaps();
     }
 
     // Retourne l'index de l'arrête qui a le poids le plus faible
