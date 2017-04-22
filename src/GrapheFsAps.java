@@ -190,7 +190,7 @@ public class GrapheFsAps extends Graphe {
                 max = lc[s] + d[s];
                 if (max >= lc[i]) {
                     if (max > lc[i]) {
-                        lc[i] = lg;
+                        lc[i] = max; // lg ?
                         kc = appc[i];
                     } else {
                         kc++;

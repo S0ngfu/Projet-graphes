@@ -1,4 +1,9 @@
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GrapheMatrice extends Graphe {
@@ -10,46 +15,91 @@ public class GrapheMatrice extends Graphe {
     }
 
     GrapheMatrice(String filename) {
-
+        try {
+            File fichier = new File(System.getProperty("user.dir") + "/" + filename);
+            FileReader fichierLire = new FileReader(fichier);
+            BufferedReader buff = new BufferedReader(fichierLire);
+            try {
+                String l = buff.readLine();
+                String[] s = l.split(";");
+                int compteur = 0;
+                nbVertices = s.length;
+                vertices = new Vertices[nbVertices];
+                for (int i = 0; i < vertices.length; i++) {
+                    vertices[i] = new Vertices(s[i]);
+                }
+                // Initialise la matrice
+                edges = new double[s.length][s.length];
+                int i = 0, j = 0;
+                l = buff.readLine();
+                // Tant qu'il y a des lignes dans le fichier
+                while (l != null) {
+                    s = l.split(";"); // On découpe avec le ;
+                    j = 0;
+                    // Pour chaque poids
+                    for (String p : s) {
+                        double poids = Double.parseDouble(p);
+                        if (poids != 0.0) {
+                            edges[i][j] = poids;
+                            compteur++;
+                        }
+                        j++;
+                    }
+                    i++;
+                    l = buff.readLine();
+                }
+                nbEdges = compteur;
+            } catch (IOException e) {
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Fichier non trouvé");
+        }
     }
+
+    public void afficherGraphe() {
+        System.out.println("=== MATRICE ===");
+        for (int i = 0; i < nbVertices; i++) {
+            for (int j = 0; j < nbVertices; j++) {
+                System.out.print(edges[i][j] + "\t");
+            }
+            System.out.println("");
+        }
+        System.out.println("===============\n");
+    }
+
     @Override
     public String toString() {
         String str = "";
-        for(int i = 1; i < nbVertices + 1; i++)
-        {
-            for(int j = 1; j < nbVertices + 1; j++)
-            {
+        for (int i = 1; i < nbVertices + 1; i++) {
+            for (int j = 1; j < nbVertices + 1; j++) {
                 str += edges[i][j] + " ";
             }
             str += "\n";
         }
         return str;
     }
-    
-    public GrapheListes mat2list()
-    {
+
+    public GrapheListes mat2list() {
         GrapheListes tmp = new GrapheListes();
         tmp.vertices = vertices;
         tmp.nbEdges = nbEdges;
         tmp.nbVertices = nbVertices;
         ArrayList<ArrayList<Edges>> tmpdata = new ArrayList<ArrayList<Edges>>(nbEdges);
-        for(int i = 1; i < nbVertices + 1; i++)
-        {
-            ArrayList <Edges> tmpedge = new ArrayList <Edges>(nbVertices);
-            for(int j = 1; j < nbVertices + 1; j++)
-                if(edges[i][j] != 0)
-                {
+        for (int i = 1; i < nbVertices + 1; i++) {
+            ArrayList<Edges> tmpedge = new ArrayList<Edges>(nbVertices);
+            for (int j = 1; j < nbVertices + 1; j++) {
+                if (edges[i][j] != 0) {
                     Edges test = new Edges(j, edges[i][j]);
                     tmpedge.add(test);
                 }
+            }
             tmpdata.add(tmpedge);
         }
         tmp.data = tmpdata;
         return tmp;
     }
-    
-    public GrapheFsAps mat2fsaps()
-    {
+
+    public GrapheFsAps mat2fsaps() {
         return this.mat2list().list2fsaps();
     }
 

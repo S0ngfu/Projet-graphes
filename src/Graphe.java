@@ -2,7 +2,6 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 class GrapheReader extends FileInputStream {
 
@@ -73,6 +72,10 @@ public abstract class Graphe {
     public class Vertices {
 
         String names;
+
+        public Vertices(String names) {
+            this.names = names;
+        }
 
         public String tostring() {
             return names;
