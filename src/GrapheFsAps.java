@@ -1,5 +1,4 @@
 
-import java.util.Arrays;
 import java.util.Stack;
 
 public class GrapheFsAps extends Graphe {
@@ -15,34 +14,34 @@ public class GrapheFsAps extends Graphe {
 
     }
 
-    public GrapheMatrice fsaps2matrice()
-    {
+    public GrapheMatrice fsaps2matrice() {
         GrapheMatrice tmp = new GrapheMatrice();
         double[][] tmpmat = new double[nbVertices + 1][nbVertices + 1];
         tmp.vertices = vertices;
         tmp.nbEdges = nbEdges;
         tmp.nbVertices = nbVertices;
-        for(int i = 1; i < nbVertices + 1; i++)
-            for(int j = 1; j < nbVertices + 1; j++)
+        for (int i = 1; i < nbVertices + 1; i++) {
+            for (int j = 1; j < nbVertices + 1; j++) {
                 tmpmat[i][j] = 0;
+            }
+        }
         int k = 1;
-        for(int i = 1; i < nbEdges + nbVertices; i++)
-        {
-            if(fs[i].id != 0)
+        for (int i = 1; i < nbEdges + nbVertices; i++) {
+            if (fs[i].id != 0) {
                 tmpmat[k][fs[i].id] = fs[i].weight;
-            else
+            } else {
                 k++;
+            }
         }
         tmp.edges = tmpmat;
-        
+
         return tmp;
     }
-    
-    public GrapheListes fsaps2list()
-    {
+
+    public GrapheListes fsaps2list() {
         return this.fsaps2matrice().mat2list();
     }
-            
+
     @Override
     public String toString() {
         String ret = "Nombre de sommets : " + nbVertices + "\n Arêtes :\n";
@@ -65,8 +64,7 @@ public class GrapheFsAps extends Graphe {
         return ret;
     }
 
-    public double[] distance(int s) 
-    {
+    public double[] distance(int s) {
         int dist = 0;
         double[] d = new double[nbVertices + 1];
         for (int i = 0; i < nbVertices + 1; i++) {
@@ -77,10 +75,8 @@ public class GrapheFsAps extends Graphe {
         return d;
     }
 
-    public double[] distrec(int s, double dist, double[] d) 
-    {
-        for (int i = aps[s]; fs[i].id != 0; i++)
-        {
+    public double[] distrec(int s, double dist, double[] d) {
+        for (int i = aps[s]; fs[i].id != 0; i++) {
             if ((d[fs[i].id] > (dist + fs[i].weight)) || d[fs[i].id] == -1) {
                 d[fs[i].id] = dist + fs[i].weight;
                 d = distrec(fs[i].id, d[fs[i].id], d);
@@ -91,8 +87,7 @@ public class GrapheFsAps extends Graphe {
 
     public double[][] mat_dist() {
         double[][] mat = new double[nbVertices + 1][nbVertices + 1];
-        for (int i = 1; i < nbVertices + 1; i++)
-        {
+        for (int i = 1; i < nbVertices + 1; i++) {
             mat[i] = distance(i);
         }
         return mat;
@@ -145,55 +140,112 @@ public class GrapheFsAps extends Graphe {
         return ddi;
     }
 
-    public void parcourspreordre(int s)
-    {
+    public void d2app(int[] d, int[] app) {
+        app[1] = 1;
+        for (int i = 1; i <= nbVertices; i++) {
+            app[i + 1] = app[i] + d[i] + 1;
+        }
+    }
+
+    public void fsaps2fpapp(int[] fp, int[] app, int[] d) {
+        d2app(d, app);
+        int s = 1;
+        for (int i = 1; i < fp.length; i++) {
+            if (fs[i].id != 0) {
+                fp[app[fs[i].id]] = s;
+                app[fs[i].id]++;
+            } else {
+                s++;
+            }
+        }
+        for (int i = nbVertices; i > 1; i--) {
+            fp[app[i]] = 0;
+            app[i] = app[i - 1] + 1;
+        }
+        app[1] = 1;
+    }
+
+    public void cheminsCritiques(int[] lc, int[] fpc, int[] appc) {
+        int[] fp = new int[fs.length];
+        int[] app = new int[aps.length];
+        int[] d = ddi();
+        fsaps2fpapp(fp, app, d);
+        int kc = 1; //indice de la dernière place remplie dans fpc
+        int s = 0, k = 0, max = 0;
+        int n = app.length, m = fp.length;
+
+        fpc = new int[m];
+        appc = new int[n];
+        lc = new int[n];
+
+        lc[1] = 0;
+        fpc[1] = 0;
+        appc[1] = 1;
+
+        for (int i = 2; i < n; i++) {
+            k = app[i];
+            lc[i] = 0;
+            appc[i] = kc + 1;
+            while ((s = fp[k]) != 0) { //tant qu’il y a un préd. du sommet i
+                max = lc[s] + d[s];
+                if (max >= lc[i]) {
+                    if (max > lc[i]) {
+                        lc[i] = lg;
+                        kc = appc[i];
+                    } else {
+                        kc++;
+                        fpc[kc] = s;
+                    }
+                }
+                k++;
+            }
+            kc++;
+            fpc[kc] = 0;
+        }
+    }
+
+    public void parcourspreordre(int s) {
         boolean[] alreadydone = new boolean[nbVertices + 1];
         parcourspreordrerec(s, alreadydone);
     }
-    
-    public void parcourspreordrerec(int s, boolean[] alreadydone)
-    {
-        for(int i = aps[s]; fs[i].id != 0; i++)
-        {
+
+    public void parcourspreordrerec(int s, boolean[] alreadydone) {
+        for (int i = aps[s]; fs[i].id != 0; i++) {
             //Insérer une fonction de traitement
             //Exemple, un print
             System.out.print(fs[i].id + " ");
             alreadydone[s] = true;
-            if(!alreadydone[fs[i].id])
+            if (!alreadydone[fs[i].id]) {
                 parcourspreordrerec(fs[i].id, alreadydone);
+            }
         }
     }
-    
-    public void parcourspostordre(int s)
-    {
+
+    public void parcourspostordre(int s) {
         boolean[] alreadydone = new boolean[nbVertices + 1];
         parcourspostordrerec(s, alreadydone);
     }
-    
-    public void parcourspostordrerec(int s, boolean[] alreadydone)
-    {
-        if(s != aps.length - 1)
-        {
-            for(int i = aps[s + 1] - 2; fs[i].id != 0; i--)
-            {
+
+    public void parcourspostordrerec(int s, boolean[] alreadydone) {
+        if (s != aps.length - 1) {
+            for (int i = aps[s + 1] - 2; fs[i].id != 0; i--) {
                 //Insérer une fonction de traitement
                 //Exemple, un print
                 System.out.print(fs[i].id + " ");
                 alreadydone[s] = true;
-                if(!alreadydone[fs[i].id])
+                if (!alreadydone[fs[i].id]) {
                     parcourspostordrerec(fs[i].id, alreadydone);
+                }
             }
-        }
-        else
-        {
-            for(int i = fs.length - 2; fs[i].id != 0; i--)
-            {
+        } else {
+            for (int i = fs.length - 2; fs[i].id != 0; i--) {
                 //Insérer une fonction de traitement
                 //Exemple, un print
                 System.out.print(fs[i].id + " ");
                 alreadydone[s] = true;
-                if(!alreadydone[fs[i].id])
+                if (!alreadydone[fs[i].id]) {
                     parcourspostordrerec(fs[i].id, alreadydone);
+                }
             }
         }
     }
