@@ -19,10 +19,21 @@ public class GrapheFsAps extends Graphe {
     public GrapheFsAps getFsaps() {
         return getFsaps(this);
     }
+
+    @Override
+    public GrapheMatrice getMatrice() {
+        return getMatrice(this);
+    }
+
+    @Override
+    public GrapheListes getListes() {
+        return getListes(this);
+    }
+
     @Override
     public void addEdge(double weight, int s1, int s2) {
         int bsup;
-        boolean écrit = false;
+        boolean ecrit = false;
         Edges[] tmpFs = new Edges[nbEdges + 2];
         for (int i = 1; i < aps[s1]; i++) {
             tmpFs[i] = fs[i];
@@ -36,7 +47,7 @@ public class GrapheFsAps extends Graphe {
             if (s2 > fs[i].id && fs[i].id != 0) {
                 tmpFs[i] = fs[i];
             } else {
-                if (!écrit) {
+                if (!ecrit) {
                     tmpFs[i] = new Edges(s2, weight);
                 } else {
                     tmpFs[i] = fs[i - 1];
@@ -85,38 +96,6 @@ public class GrapheFsAps extends Graphe {
     public void addVertex() {
         addVertex("");
     }
-
-    public GrapheMatrice fsaps2matrice() {
-        GrapheMatrice tmp = new GrapheMatrice();
-        double[][] tmpmat = new double[nbVertices + 1][nbVertices + 1];
-        tmp.vertices = vertices;
-        tmp.nbEdges = nbEdges;
-        tmp.nbVertices = nbVertices;
-        for (int i = 1; i < nbVertices + 1; i++) {
-            for (int j = 1; j < nbVertices + 1; j++) {
-                tmpmat[i][j] = 0;
-            }
-        }
-        int k = 1;
-        for (int i = 1; i < nbEdges + nbVertices; i++) {
-            if (fs[i].id != 0) {
-                tmpmat[k][fs[i].id] = fs[i].weight;
-            } else {
-                k++;
-            }
-        }
-        tmp.edges = tmpmat;
-
-    @Override
-    public GrapheMatrice getMatrice() {
-        return getMatrice(this);
-    }
-
-    @Override
-    public GrapheListes getListes() {
-        return getListes(this);
-    }
-
 
     @Override
     public String toString() {
