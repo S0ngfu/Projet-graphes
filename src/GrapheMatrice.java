@@ -70,8 +70,8 @@ public class GrapheMatrice extends Graphe {
     @Override
     public String toString() {
         String str = "";
-        for (int i = 1; i < nbVertices + 1; i++) {
-            for (int j = 1; j < nbVertices + 1; j++) {
+        for (int i = 0; i < nbVertices; i++) {
+            for (int j = 0; j < nbVertices; j++) {
                 str += edges[i][j] + " ";
             }
             str += "\n";
