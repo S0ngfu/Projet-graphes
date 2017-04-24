@@ -73,15 +73,26 @@ public class InterfaceConsole {
         }
 
         if(tmp == 1) {
-            g.mat_dist();
+            double[][] tmptab = g.mat_dist();
+            for (int i = 0 ; i < tmptab.length ; i++) {
+                for (int j = 0 ; j < tmptab[i].length ; j++) {
+                    System.out.print(tmptab[i][j] + "\t");
+                }
+                System.out.println();
+            }
         }
 
         if(tmp == 2) {
-            g.mat_dist();
+            int[] tmptab = g.det_rang();
+            for(int i = 0 ; i < tmptab.length ; i++) {
+                System.out.print(tmptab[i] + "\t");
+            }
+            System.out.println();
         }
 
         if(tmp == 3) {
             System.out.println("Not working");
+            //g.cheminsCritiques();
         }
 
         if(tmp == 4) {
