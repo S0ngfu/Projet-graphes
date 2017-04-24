@@ -324,4 +324,37 @@ public class GrapheMatrice extends Graphe {
         }
         return true;
     }
+
+    @Override
+    public void addEdge(double weight, int s1, int s2) {
+        nbEdges++;
+        edges[s1][s2] = weight;
+    }
+
+    @Override
+    public void addEdge(int s1, int s2) {
+        addEdge(1, s1, s2);
+    }
+
+    @Override
+    public void addVertex(String names) {
+        nbVertices++;
+        double[][] tmpEdges = new double[nbVertices + 1][nbVertices + 1];
+        for (int i = 1; i < nbVertices; i++) {
+            for (int j = 1; j < nbVertices; j++) {
+                tmpEdges[i][j] = edges[i][j];
+            }
+        }
+        Vertices[] tmpNames = new Vertices[nbVertices + 1];
+        for (int i = 1; i < nbVertices; i++) {
+            tmpNames[i] = vertices[i];
+        }
+        tmpNames[nbVertices] = new Vertices(names);
+        vertices = tmpNames;
+    }
+
+    @Override
+    public void addVertex() {
+        addVertex("");
+    }
 }
