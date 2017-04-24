@@ -69,10 +69,10 @@ public class GrapheFsAps extends Graphe {
         
         nbVertices++;
         Vertices[] tmpNames = new Vertices[nbVertices + 1];
-        for (int i = 1; i < tmpAps.length - 1; i++) {
+        for (int i = 1; i < nbVertices; i++) {
             tmpNames[i] = vertices[i];
         }
-        tmpNames[tmpAps.length] = new Vertices(names);
+        tmpNames[nbVertices] = new Vertices(names);
         vertices = tmpNames;
     }
 

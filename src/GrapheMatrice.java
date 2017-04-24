@@ -332,21 +332,34 @@ public class GrapheMatrice extends Graphe {
 
     @Override
     public void addEdge(double weight, int s1, int s2) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        nbEdges++;
+        edges[s1][s2] = weight;
     }
 
     @Override
     public void addEdge(int s1, int s2) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        addEdge(1, s1, s2);
     }
 
     @Override
     public void addVertex(String names) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        nbVertices++;
+        double[][] tmpEdges = new double[nbVertices + 1][nbVertices + 1];
+        for (int i = 1; i < nbVertices; i++) {
+            for (int j = 1; j < nbVertices; j++) {
+                tmpEdges[i][j] = edges[i][j];
+            }
+        }
+        Vertices[] tmpNames = new Vertices[nbVertices + 1];
+        for (int i = 1; i < nbVertices; i++) {
+            tmpNames[i] = vertices[i];
+        }
+        tmpNames[nbVertices] = new Vertices(names);
+        vertices = tmpNames;
     }
 
     @Override
     public void addVertex() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        addVertex("");
     }
 }
