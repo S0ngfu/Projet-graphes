@@ -268,6 +268,7 @@ public class GrapheFsAps extends Graphe {
         }
     }
 
+    @Override
     public void parcourspreordre(int s) {
         boolean[] alreadydone = new boolean[nbVertices + 1];
         parcourspreordrerec(s, alreadydone);

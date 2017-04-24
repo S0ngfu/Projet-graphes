@@ -96,7 +96,13 @@ public class InterfaceConsole {
         }
 
         if(tmp == 4) {
-            g.mat_dist();
+            int s;
+            System.out.println("Entrez un nombre entre 1 et "+g.nbVertices+"compris");
+            s = Integer.parseInt(in.next());
+            while(s < 1 || s > g.nbVertices) {
+                s = Integer.parseInt(in.next());
+            }
+            g.parcourspreordre(s);
         }
 
         if(tmp == 5) {

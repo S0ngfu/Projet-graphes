@@ -75,4 +75,9 @@ public class GrapheListes extends Graphe {
         this.getFsaps().cheminsCritiques(lc, fpc, appc);
     }
 
+    @Override
+    public void parcourspreordre(int s) {
+        this.getFsaps().parcourspreordre(s);
+    }
+
 }

@@ -174,4 +174,6 @@ public abstract class Graphe {
 
     public abstract void cheminsCritiques(int[] lc, int[] fpc, int[] appc);
 
-}
+    public abstract void parcourspreordre(int s);
+
+    }
