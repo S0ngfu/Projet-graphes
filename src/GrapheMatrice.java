@@ -378,4 +378,8 @@ public class GrapheMatrice extends Graphe {
         this.getFsaps().parcourspreordre(s);
     }
 
+    @Override
+    public void parcourspostordre(int s) {
+        this.getFsaps().parcourspostordre(s);
+    }
 }
