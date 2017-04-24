@@ -176,4 +176,6 @@ public abstract class Graphe {
 
     public abstract void parcourspreordre(int s);
 
-    }
+    public abstract void parcourspostordre(int s);
+
+}

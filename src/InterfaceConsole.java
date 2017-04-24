@@ -22,8 +22,8 @@ public class InterfaceConsole {
 
     private void init() {
         // INIT GRAPHE!!!
-        Graphe gm = new GrapheMatrice("graphe.txt");
-        gm.afficherGraphe();
+        g = new GrapheMatrice("graphe.txt");
+        g.afficherGraphe();
         //System.out.println(gm);
 
         System.out.println("Voici l'interface console pour gérer un graphe.\n Entrez help pour voir les commandes disponibles");
