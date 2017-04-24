@@ -30,6 +30,12 @@ public class GrapheFsAps extends Graphe {
         return getListes(this);
     }
 
+
+    @Override
+    public void afficherGraphe() {
+        this.getMatrice().afficherGraphe();
+    }
+
     @Override
     public void addEdge(double weight, int s1, int s2) {
         int bsup;
@@ -140,6 +146,7 @@ public class GrapheFsAps extends Graphe {
         return d;
     }
 
+    @Override
     public double[][] mat_dist() {
         double[][] mat = new double[nbVertices + 1][nbVertices + 1];
         for (int i = 1; i < nbVertices + 1; i++) {
@@ -148,6 +155,7 @@ public class GrapheFsAps extends Graphe {
         return mat;
     }
 
+    @Override
     public int[] det_rang() {
 
         // il faut que le graphe soit orienté!!!
@@ -220,6 +228,7 @@ public class GrapheFsAps extends Graphe {
         app[1] = 1;
     }
 
+    @Override
     public void cheminsCritiques(int[] lc, int[] fpc, int[] appc) {
         int[] fp = new int[fs.length];
         int[] app = new int[aps.length];

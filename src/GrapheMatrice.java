@@ -357,4 +357,21 @@ public class GrapheMatrice extends Graphe {
     public void addVertex() {
         addVertex("");
     }
+
+    @Override
+    public double[][] mat_dist() {
+        return this.getFsaps().mat_dist();
+    }
+
+    @Override
+    public int[] det_rang() {
+        return this.getFsaps().det_rang();
+    }
+
+    @Override
+    public void cheminsCritiques(int[] lc, int[] fpc, int[] appc) {
+        this.getFsaps().cheminsCritiques(lc, fpc, appc);
+    }
+
+
 }

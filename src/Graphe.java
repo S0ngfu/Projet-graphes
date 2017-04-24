@@ -28,13 +28,13 @@ public abstract class Graphe {
     Graphe() {
 
     }
-    
+
     public abstract void addEdge(double weight, int s1, int s2);
-    
+
     public abstract void addEdge(int s1, int s2);
-    
+
     public abstract void addVertex(String names);
-    
+
     public abstract void addVertex();
 
     public Graphe open(String filename) {
@@ -57,7 +57,9 @@ public abstract class Graphe {
 
     //Conversions
     public abstract GrapheFsAps getFsaps();
+
     public abstract GrapheMatrice getMatrice();
+
     public abstract GrapheListes getListes();
 
     public static GrapheFsAps getFsaps(GrapheFsAps data) {
@@ -76,13 +78,13 @@ public abstract class Graphe {
         fsaps.aps = new int[data.nbEdges + 1];
         fsaps.fs = new Edges[data.nbVertices + data.nbEdges + 1];
 
-        Edges blank = new Edges(0,-1.0);
-        int i=0, j=1;
-        for(ArrayList<Edges> tmp : data.data) {
+        Edges blank = new Edges(0, -1.0);
+        int i = 0, j = 1;
+        for (ArrayList<Edges> tmp : data.data) {
             fsaps.fs[i] = blank;
             i++;
             fsaps.aps[j] = i;
-            for(Edges tmpedg : tmp) {
+            for (Edges tmpedg : tmp) {
                 fsaps.fs[i] = tmpedg;
                 i++;
             }
@@ -156,7 +158,6 @@ public abstract class Graphe {
     }
 
 
-
     public String getEdgeName(int id) throws ArrayIndexOutOfBoundsException {
         return vertices[id].names;
     }
@@ -164,4 +165,13 @@ public abstract class Graphe {
     public void setEdgeName(int id, String name) throws ArrayIndexOutOfBoundsException {
         vertices[id].names = name;
     }
+
+    public abstract void afficherGraphe();
+
+    public abstract double[][] mat_dist();
+
+    public abstract int[] det_rang();
+
+    public abstract void cheminsCritiques(int[] lc, int[] fpc, int[] appc);
+
 }

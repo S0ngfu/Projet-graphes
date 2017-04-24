@@ -12,7 +12,7 @@ public class GrapheListes extends Graphe {
     GrapheListes(String filename) {
 
     }
-    
+
     @Override
     public String toString() {
         String str = "";
@@ -53,6 +53,26 @@ public class GrapheListes extends Graphe {
     @Override
     public void addVertex() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double[][] mat_dist() {
+        return this.getFsaps().mat_dist();
+    }
+
+    @Override
+    public int[] det_rang() {
+        return this.getFsaps().det_rang();
+    }
+
+    @Override
+    public void afficherGraphe() {
+        this.getMatrice().afficherGraphe();
+    }
+
+    @Override
+    public void cheminsCritiques(int[] lc, int[] fpc, int[] appc) {
+        this.getFsaps().cheminsCritiques(lc, fpc, appc);
     }
 
 }
