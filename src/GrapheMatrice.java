@@ -29,13 +29,13 @@ public class GrapheMatrice extends Graphe {
                     vertices[i] = new Vertices(s[i]);
                 }
                 // Initialise la matrice
-                edges = new double[s.length][s.length];
-                int i = 0, j = 0;
+                edges = new double[s.length + 1][s.length + 1];
+                int i = 1, j;
                 l = buff.readLine();
                 // Tant qu'il y a des lignes dans le fichier
                 while (l != null) {
                     s = l.split(";"); // On découpe avec le ;
-                    j = 0;
+                    j = 1;
                     // Pour chaque poids
                     for (String p : s) {
                         double poids = Double.parseDouble(p);
@@ -377,9 +377,10 @@ public class GrapheMatrice extends Graphe {
     public void parcourspreordre(int s) {
         this.getFsaps().parcourspreordre(s);
     }
-
+    
     @Override
     public void parcourspostordre(int s) {
         this.getFsaps().parcourspostordre(s);
     }
+
 }
