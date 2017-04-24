@@ -190,7 +190,7 @@ public class GrapheFsAps extends Graphe {
     }
 
     public int[] ddi() {
-        int[] ddi = new int[nbVertices];
+        int[] ddi = new int[nbVertices + 1];
         for (int i = 0; i < ddi.length; i++) {
             ddi[i] = 0;
         }
