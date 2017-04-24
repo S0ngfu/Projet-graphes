@@ -266,8 +266,9 @@ public class GrapheMatrice extends Graphe {
     }
 
     @Override
-    public void decodagePrufer(int p[]) {
+    public double[][] decodagePrufer(int p[]) {
         int m = p[0] - 2, n = m + 2;
+        double[][] tmp = new double[nbVertices + 1][nbVertices + 1];
 
         int[] s = new int[n + 1];
         boolean[] b = new boolean[n + 1];
@@ -282,8 +283,8 @@ public class GrapheMatrice extends Graphe {
         for (int k = 1; k <= n; k++) {
             for (int i = 1; i <= n; i++) {
                 if ((b[i]) && (s[p[i]] == 0)) {
-                    edges[i][p[k]] = 1;
-                    edges[p[k]][i] = 1;
+                    tmp[i][p[k]] = 1;
+                    tmp[p[k]][i] = 1;
                     b[i] = false;
                     s[p[k]]--;
                     break;
@@ -295,9 +296,9 @@ public class GrapheMatrice extends Graphe {
         //b[i] = false;
         int j;
         for (j = i + 1; !b[j]; j++);
-        edges[i][j] = 1;
-        edges[j][i] = 1;
-
+        tmp[i][j] = 1;
+        tmp[j][i] = 1;
+        return tmp;
     }
 
     @Override
