@@ -84,4 +84,39 @@ public class GrapheListes extends Graphe {
     public void parcourspostordre(int s) {
         this.getFsaps().parcourspostordre(s);
     }
+
+    @Override
+    public int[] dijkstra(int s) {
+        return this.getFsaps().dijkstra(s);
+    }
+
+    @Override
+    public int[] bellmanford(int s) {
+        return this.getFsaps().bellmanford(s);
+    }
+
+    @Override
+    public GrapheMatrice kruskal() {
+        return this.getMatrice().kruskal();
+    }
+
+    @Override
+    public GrapheMatrice prim() {
+        return this.getMatrice().prim();
+    }
+
+    @Override
+    public int[] codagePrufer() {
+        return this.getMatrice().codagePrufer();
+    }
+
+    @Override
+    public void decodagePrufer(int p[]) {
+        this.getMatrice().decodagePrufer(p);
+    }
+
+    @Override
+    public boolean dantzig() {
+        return this.getMatrice().dantzig();
+    }
 }

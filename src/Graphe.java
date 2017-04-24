@@ -178,4 +178,17 @@ public abstract class Graphe {
 
     public abstract void parcourspostordre(int s);
 
+    public abstract int[] dijkstra(int s);
+
+    public abstract int[] bellmanford(int s);
+
+    public abstract GrapheMatrice kruskal();
+
+    public abstract GrapheMatrice prim();
+
+    public abstract int[] codagePrufer();
+
+    public abstract void decodagePrufer(int p[]);
+
+    public abstract boolean dantzig();
 }

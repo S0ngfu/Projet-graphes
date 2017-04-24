@@ -44,12 +44,21 @@ public class InterfaceConsole {
         if("algos".startsWith(inputs.toLowerCase()))
             showAlgo();
 
+        if("show".startsWith(inputs.toLowerCase()))
+            g.afficherGraphe();
+
+        if("conversions".startsWith(inputs.toLowerCase()))
+            //ToDo
+            ;
+
         return false;
     }
 
     private void showHelp() {
         System.out.println("Quit \n" +
-                "Help");
+                "Help\n" +
+                "Algos\n" +
+                "Show\n");
     }
 
     private void showAlgo() {
@@ -64,10 +73,11 @@ public class InterfaceConsole {
                 "8 : Kruskal\n" +
                 "9 : Codage prufer\n" +
                 "10 : Décodage prufer\n" +
-                "11 : Dantzig\n");
+                "11 : Dantzig\n" +
+                "12 : Prim");
         inputs = in.next();
         int tmp = Integer.parseInt(inputs);
-        while(tmp < 1 || tmp > 11) {
+        while(tmp < 1 || tmp > 12) {
             inputs = in.next();
             tmp = Integer.parseInt(inputs);
         }
@@ -83,6 +93,7 @@ public class InterfaceConsole {
         }
 
         if(tmp == 2) {
+            System.out.println("Does not work");
             int[] tmptab = g.det_rang();
             for(int i = 0 ; i < tmptab.length ; i++) {
                 System.out.print(tmptab[i] + "\t");
@@ -106,31 +117,75 @@ public class InterfaceConsole {
         }
 
         if(tmp == 5) {
-            g.mat_dist();
+            int s;
+            System.out.println("Entrez un nombre entre 1 et "+g.nbVertices+"compris");
+            s = Integer.parseInt(in.next());
+            while(s < 1 || s > g.nbVertices) {
+                s = Integer.parseInt(in.next());
+            }
+            g.parcourspostordre(s);
         }
 
         if(tmp == 6) {
-            g.mat_dist();
+            int s;
+            System.out.println("Entrez un nombre entre 1 et "+g.nbVertices+"compris");
+            s = Integer.parseInt(in.next());
+            while(s < 1 || s > g.nbVertices) {
+                s = Integer.parseInt(in.next());
+            }
+            int[] tmptab = g.dijkstra(s);
+
+            for(int i = 0 ; i < tmptab.length ; i++) {
+                System.out.print(tmptab[i] + "\t");
+            }
+            System.out.println();
         }
 
         if(tmp == 7) {
-            g.mat_dist();
+            int s;
+            System.out.println("Entrez un nombre entre 1 et "+g.nbVertices+"compris");
+            s = Integer.parseInt(in.next());
+            while(s < 1 || s > g.nbVertices) {
+                s = Integer.parseInt(in.next());
+            }
+            int[] tmptab = g.bellmanford(s);
+
+            for(int i = 0 ; i < tmptab.length ; i++) {
+                System.out.print(tmptab[i] + "\t");
+            }
+            System.out.println();
         }
 
         if(tmp == 8) {
-            g.mat_dist();
+            GrapheMatrice tmpg = g.kruskal();
+            tmpg.afficherGraphe();
         }
 
         if(tmp == 9) {
-            g.mat_dist();
+            int[] tmptab = g.codagePrufer();
+
+            for(int i = 0 ; i < tmptab.length ; i++) {
+                System.out.print(tmptab[i] + "\t");
+            }
+            System.out.println();
         }
 
         if(tmp == 10) {
-            g.mat_dist();
+            g.decodagePrufer(g.codagePrufer());
         }
 
         if(tmp == 11) {
-            g.mat_dist();
+            boolean tmpb = g.dantzig();
+            if(tmpb) {
+                System.out.println("Vrai");
+            } else {
+                System.out.println("Faux");
+            }
+        }
+
+        if(tmp == 12) {
+            GrapheMatrice tmpg = g.prim();
+            tmpg.afficherGraphe();
         }
     }
 

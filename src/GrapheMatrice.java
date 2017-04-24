@@ -72,9 +72,7 @@ public class GrapheMatrice extends Graphe {
         return getListes(this);
     }
 
-
-
-
+    @Override
     public void afficherGraphe() {
         System.out.println("=== MATRICE ===");
         for (int i = 0; i < nbVertices; i++) {
@@ -115,6 +113,7 @@ public class GrapheMatrice extends Graphe {
 
     // Retourne un arbre recouvrant minimal d'un graphe non orienté
     // Version modifiée de : http://www.script-tout-fait.com/fr/fichier-Algorithme-de-Kruskal-obtenir-un-abre-couvrant-minimal-692.html
+    @Override
     public GrapheMatrice kruskal() {
         double[] matrice = new double[nbVertices + 1 * nbVertices + 1];
         int index = -2;
@@ -186,6 +185,7 @@ public class GrapheMatrice extends Graphe {
     }
 
     // Retourne un arbre recouvrant minimal d'un graphe non orienté
+    @Override
     public GrapheMatrice prim() {
         boolean[] visité = new boolean[nbVertices + 1];
         int[] précédent = new int[nbVertices + 1];
@@ -238,6 +238,7 @@ public class GrapheMatrice extends Graphe {
         return resultat;
     }
 
+    @Override
     public int[] codagePrufer() {
         int[] p = new int[nbVertices + 1];
         p[0] = nbVertices;
@@ -264,6 +265,7 @@ public class GrapheMatrice extends Graphe {
         return p;
     }
 
+    @Override
     public void decodagePrufer(int p[]) {
         int m = p[0] - 2, n = m + 2;
 
@@ -298,6 +300,7 @@ public class GrapheMatrice extends Graphe {
 
     }
 
+    @Override
     public boolean dantzig() {
         double x;
         for (int k = 1; k < nbVertices + 1; k++) {
@@ -381,6 +384,16 @@ public class GrapheMatrice extends Graphe {
     @Override
     public void parcourspostordre(int s) {
         this.getFsaps().parcourspostordre(s);
+    }
+
+    @Override
+    public int[] dijkstra(int s) {
+        return this.getFsaps().dijkstra(s);
+    }
+
+    @Override
+    public int[] bellmanford(int s) {
+        return this.getFsaps().bellmanford(s);
     }
 
 }

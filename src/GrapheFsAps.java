@@ -315,6 +315,7 @@ public class GrapheFsAps extends Graphe {
         }
     }
 
+    @Override
     public int[] dijkstra(int s) {
         int cpt, j = 0, k, bsup;
         double max, v;
@@ -364,6 +365,7 @@ public class GrapheFsAps extends Graphe {
         return pred;
     }
 
+    @Override
     public int[] bellmanford(int s) {
         double[] distances = new double[nbVertices];
         int[] pred = new int[nbVertices];
@@ -403,5 +405,30 @@ public class GrapheFsAps extends Graphe {
         }
 
         return pred;
+    }
+
+    @Override
+    public GrapheMatrice kruskal() {
+        return this.getMatrice().kruskal();
+    }
+
+    @Override
+    public GrapheMatrice prim() {
+        return this.getMatrice().prim();
+    }
+
+    @Override
+    public int[] codagePrufer() {
+        return this.getMatrice().codagePrufer();
+    }
+
+    @Override
+    public void decodagePrufer(int p[]) {
+        this.getMatrice().decodagePrufer(p);
+    }
+
+    @Override
+    public boolean dantzig() {
+        return this.getMatrice().dantzig();
     }
 }
