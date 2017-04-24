@@ -2,67 +2,7 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-class GrapheReader extends FileInputStream {
-
-    private char c;
-
-    public GrapheReader(String filename) throws FileNotFoundException {
-        super(filename);
-    }
-
-    public boolean matchKey(String key) throws IOException {
-        byte[] buf = new byte[key.length()];
-        read(buf, 0, key.length());
-        return key.compareTo(new String(buf)) == 0;
-    }
-
-    public void getChar() throws IOException {
-        c = (char) read();
-    }
-
-    public int getInt() throws IOException {
-        String s = "";
-        while ((c != '\n') && Character.isSpaceChar(c)) {
-            getChar();
-        }
-        while ((c != '\n') && !Character.isSpaceChar(c)) {
-            s = s + c;
-            getChar();
-        }
-        return Integer.parseInt(s);
-    }
-
-    public void skipLine() throws IOException {
-        while (c != '\n') {
-            getChar();
-        }
-    }
-
-    public void skipComment(char code) throws IOException {
-        getChar();
-        while (c == code) {
-            skipLine();
-            getChar();
-        }
-    }
-
-    public byte[] loadData(int size) throws IOException {
-        byte[] data = new byte[size];
-        read(data, 0, size);
-        return data;
-    }
-
-    @Override
-    public void close() {
-        try {
-            super.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-}
+import java.util.ArrayList;
 
 public abstract class Graphe {
 
@@ -77,7 +17,8 @@ public abstract class Graphe {
             this.names = names;
         }
 
-        public String tostring() {
+        @Override
+        public String toString() {
             return names;
         }
     }
@@ -104,6 +45,109 @@ public abstract class Graphe {
             return null;
         }
     }
+
+
+    //Conversions
+    public abstract GrapheFsAps getFsaps();
+    public abstract GrapheMatrice getMatrice();
+    public abstract GrapheListes getListes();
+
+    public static GrapheFsAps getFsaps(GrapheFsAps data) {
+        return data;
+    }
+
+    public static GrapheFsAps getFsaps(GrapheMatrice data) {
+        return data.getListes().getFsaps();
+    }
+
+    public static GrapheFsAps getFsaps(GrapheListes data) {
+        GrapheFsAps fsaps = new GrapheFsAps();
+        fsaps.vertices = data.vertices;
+        fsaps.nbEdges = data.nbEdges;
+        fsaps.nbVertices = data.nbVertices;
+        fsaps.aps = new int[data.nbEdges + 1];
+        fsaps.fs = new Edges[data.nbVertices + data.nbEdges + 1];
+
+        Edges blank = new Edges(0,-1.0);
+        int i=0, j=1;
+        for(ArrayList<Edges> tmp : data.data) {
+            fsaps.fs[i] = blank;
+            i++;
+            fsaps.aps[j] = i;
+            for(Edges tmpedg : tmp) {
+                fsaps.fs[i] = tmpedg;
+                i++;
+            }
+            j++;
+        }
+        fsaps.fs[fsaps.fs.length - 1] = blank;
+
+        return fsaps;
+    }
+
+
+    public static GrapheMatrice getMatrice(GrapheFsAps data) {
+        GrapheMatrice tmp = new GrapheMatrice();
+        double[][] tmpmat = new double[data.nbVertices + 1][data.nbVertices + 1];
+        tmp.vertices = data.vertices;
+        tmp.nbEdges = data.nbEdges;
+        tmp.nbVertices = data.nbVertices;
+        for (int i = 1; i < data.nbVertices + 1; i++) {
+            for (int j = 1; j < data.nbVertices + 1; j++) {
+                tmpmat[i][j] = 0;
+            }
+        }
+        int k = 1;
+        for (int i = 1; i < data.nbEdges + data.nbVertices; i++) {
+            if (data.fs[i].id != 0) {
+                tmpmat[k][data.fs[i].id] = data.fs[i].weight;
+            } else {
+                k++;
+            }
+        }
+        tmp.edges = tmpmat;
+
+        return tmp;
+    }
+
+    public static GrapheMatrice getMatrice(GrapheMatrice data) {
+        return data;
+    }
+
+    public static GrapheMatrice getMatrice(GrapheListes data) {
+        return data.getFsaps().getMatrice();
+    }
+
+
+    public static GrapheListes getListes(GrapheFsAps data) {
+        return data.getMatrice().getListes();
+    }
+
+    public static GrapheListes getListes(GrapheMatrice data) {
+        GrapheListes tmp = new GrapheListes();
+        tmp.vertices = data.vertices;
+        tmp.nbEdges = data.nbEdges;
+        tmp.nbVertices = data.nbVertices;
+        ArrayList<ArrayList<Edges>> tmpdata = new ArrayList<ArrayList<Edges>>(data.nbEdges);
+        for (int i = 1; i < data.nbVertices + 1; i++) {
+            ArrayList<Edges> tmpedge = new ArrayList<Edges>(data.nbVertices);
+            for (int j = 1; j < data.nbVertices + 1; j++) {
+                if (data.edges[i][j] != 0) {
+                    Edges test = new Edges(j, data.edges[i][j]);
+                    tmpedge.add(test);
+                }
+            }
+            tmpdata.add(tmpedge);
+        }
+        tmp.data = tmpdata;
+        return tmp;
+    }
+
+    public static GrapheListes getListes(GrapheListes data) {
+        return data;
+    }
+
+
 
     public String getEdgeName(int id) throws ArrayIndexOutOfBoundsException {
         return vertices[id].names;

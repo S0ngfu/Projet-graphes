@@ -27,21 +27,22 @@ public class InterfaceConsole {
 
     private boolean input(String inputs) {
 
-        if("quit".startsWith(inputs))
+        if("quit".startsWith(inputs.toLowerCase()))
             return true;
 
-        if("help".startsWith(inputs))
+        if("help".startsWith(inputs.toLowerCase()))
             showHelp();
 
-
-
-
+        if("open".startsWith(inputs.toLowerCase()))
+            //ToDo OpenFileManager .fsaps .matrice .listes
+            ;
 
         return false;
     }
 
     private void showHelp() {
-        //ToDo
+        System.out.println("Quit \n" +
+                "Help");
     }
 
 }

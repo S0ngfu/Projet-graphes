@@ -7,40 +7,29 @@ public class GrapheFsAps extends Graphe {
     public int[] aps;
 
     GrapheFsAps() {
-
+        //ToDo
     }
 
     GrapheFsAps(String filename) {
-
+        //ToDo
     }
 
-    public GrapheMatrice fsaps2matrice() {
-        GrapheMatrice tmp = new GrapheMatrice();
-        double[][] tmpmat = new double[nbVertices + 1][nbVertices + 1];
-        tmp.vertices = vertices;
-        tmp.nbEdges = nbEdges;
-        tmp.nbVertices = nbVertices;
-        for (int i = 1; i < nbVertices + 1; i++) {
-            for (int j = 1; j < nbVertices + 1; j++) {
-                tmpmat[i][j] = 0;
-            }
-        }
-        int k = 1;
-        for (int i = 1; i < nbEdges + nbVertices; i++) {
-            if (fs[i].id != 0) {
-                tmpmat[k][fs[i].id] = fs[i].weight;
-            } else {
-                k++;
-            }
-        }
-        tmp.edges = tmpmat;
 
-        return tmp;
+    @Override
+    public GrapheFsAps getFsaps() {
+        return getFsaps(this);
     }
 
-    public GrapheListes fsaps2list() {
-        return this.fsaps2matrice().mat2list();
+    @Override
+    public GrapheMatrice getMatrice() {
+        return getMatrice(this);
     }
+
+    @Override
+    public GrapheListes getListes() {
+        return getListes(this);
+    }
+
 
     @Override
     public String toString() {

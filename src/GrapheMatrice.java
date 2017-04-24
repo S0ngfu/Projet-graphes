@@ -56,6 +56,25 @@ public class GrapheMatrice extends Graphe {
         }
     }
 
+
+    @Override
+    public GrapheFsAps getFsaps() {
+        return getFsaps(this);
+    }
+
+    @Override
+    public GrapheMatrice getMatrice() {
+        return getMatrice(this);
+    }
+
+    @Override
+    public GrapheListes getListes() {
+        return getListes(this);
+    }
+
+
+
+
     public void afficherGraphe() {
         System.out.println("=== MATRICE ===");
         for (int i = 0; i < nbVertices; i++) {
@@ -77,30 +96,6 @@ public class GrapheMatrice extends Graphe {
             str += "\n";
         }
         return str;
-    }
-
-    public GrapheListes mat2list() {
-        GrapheListes tmp = new GrapheListes();
-        tmp.vertices = vertices;
-        tmp.nbEdges = nbEdges;
-        tmp.nbVertices = nbVertices;
-        ArrayList<ArrayList<Edges>> tmpdata = new ArrayList<ArrayList<Edges>>(nbEdges);
-        for (int i = 1; i < nbVertices + 1; i++) {
-            ArrayList<Edges> tmpedge = new ArrayList<Edges>(nbVertices);
-            for (int j = 1; j < nbVertices + 1; j++) {
-                if (edges[i][j] != 0) {
-                    Edges test = new Edges(j, edges[i][j]);
-                    tmpedge.add(test);
-                }
-            }
-            tmpdata.add(tmpedge);
-        }
-        tmp.data = tmpdata;
-        return tmp;
-    }
-
-    public GrapheFsAps mat2fsaps() {
-        return this.mat2list().list2fsaps();
     }
 
     // Retourne l'index de l'arrête qui a le poids le plus faible
