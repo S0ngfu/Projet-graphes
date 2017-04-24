@@ -14,6 +14,73 @@ public class GrapheFsAps extends Graphe {
 
     }
 
+    @Override
+    public void addEdge(double weight, int s1, int s2) {
+        int bsup;
+        boolean écrit = false;
+        Edges[] tmpFs = new Edges[nbEdges + 2];
+        for (int i = 1; i < aps[s1]; i++) {
+            tmpFs[i] = fs[i];
+        }
+        if (s1 == nbVertices) {
+            bsup = tmpFs.length - 1;
+        } else {
+            bsup = aps[s1 + 1];
+        }
+        for (int i = aps[s1]; i <= bsup; i++) {
+            if (s2 > fs[i].id && fs[i].id != 0) {
+                tmpFs[i] = fs[i];
+            } else {
+                if (!écrit) {
+                    tmpFs[i] = new Edges(s2, weight);
+                } else {
+                    tmpFs[i] = fs[i - 1];
+                }
+            }
+        }
+        for (int i = bsup; i < tmpFs.length - 1; i++) {
+            tmpFs[i] = fs[i - 1];
+        }
+        tmpFs[tmpFs.length - 1] = new Edges(0, 1);
+        fs = tmpFs;
+        nbEdges++;
+    }
+
+    @Override
+    public void addEdge(int s1, int s2) {
+        addEdge(1, s1, s2);
+    }
+
+    @Override
+    public void addVertex(String names) {
+        Edges[] tmpFs = new Edges[nbEdges + 2];
+        for (int i = 1; i < tmpFs.length - 1; i++) {
+            tmpFs[i] = fs[i];
+        }
+        tmpFs[tmpFs.length - 1] = new Edges(0, 1);
+        fs = tmpFs;
+
+        int[] tmpAps = new int[nbVertices + 2];
+        for (int i = 1; i < tmpAps.length - 1; i++) {
+            tmpAps[i] = aps[i];
+        }
+        tmpAps[tmpAps.length - 1] = tmpFs.length - 2;
+        aps = tmpAps;
+        
+        nbVertices++;
+        Vertices[] tmpNames = new Vertices[nbVertices + 1];
+        for (int i = 1; i < tmpAps.length - 1; i++) {
+            tmpNames[i] = vertices[i];
+        }
+        tmpNames[tmpAps.length] = new Vertices(names);
+        vertices = tmpNames;
+    }
+
+    @Override
+    public void addVertex() {
+        addVertex("");
+    }
+
     public GrapheMatrice fsaps2matrice() {
         GrapheMatrice tmp = new GrapheMatrice();
         double[][] tmpmat = new double[nbVertices + 1][nbVertices + 1];

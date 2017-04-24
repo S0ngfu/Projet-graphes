@@ -87,6 +87,14 @@ public abstract class Graphe {
     Graphe() {
 
     }
+    
+    public abstract void addEdge(double weight, int s1, int s2);
+    
+    public abstract void addEdge(int s1, int s2);
+    
+    public abstract void addVertex(String names);
+    
+    public abstract void addVertex();
 
     public Graphe open(String filename) {
         //Si le fichier finit avec .fsaps
