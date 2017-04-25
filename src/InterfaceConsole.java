@@ -48,8 +48,7 @@ public class InterfaceConsole {
             g.afficherGraphe();
 
         if("conversions".startsWith(inputs.toLowerCase()))
-            //ToDo
-            ;
+            convert(g);
 
         return false;
     }
@@ -58,7 +57,23 @@ public class InterfaceConsole {
         System.out.println("Quit \n" +
                 "Help\n" +
                 "Algos\n" +
-                "Show\n");
+                "Show\n" +
+                "Convert");
+    }
+
+    private Graphe convert(Graphe g) {
+        System.out.println("Entrez le type de graphe désiré (fsaps / matrice / listes");
+
+        inputs = in.next();
+
+        if ("fsaps".startsWith(inputs.toLowerCase()))
+            return g.getFsaps();
+        if ("matrice".startsWith(inputs.toLowerCase()))
+            return g.getMatrice();
+        if ("listes".startsWith(inputs.toLowerCase()))
+            return g.getListes();
+
+        return g;
     }
 
     private void showAlgo() {
