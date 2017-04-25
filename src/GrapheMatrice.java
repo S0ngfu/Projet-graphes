@@ -252,9 +252,9 @@ public class GrapheMatrice extends Graphe {
         int k = 1;
         while (k <= nbVertices) {
             int i;
-            for (i = 1; edges[i][0] != 1 && i < nbVertices; i++);
+            for (i = 1; edges[i][0] < 1 && i < nbVertices; i++);
             int j;
-            for (j = 1; edges[i][j] != 1 && j < nbVertices; j++);
+            for (j = 1; edges[i][j] < 1 && j < nbVertices; j++);
             p[k++] = j;
 
             edges[i][0] = 0;
