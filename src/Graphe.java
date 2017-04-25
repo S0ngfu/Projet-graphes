@@ -188,7 +188,7 @@ public abstract class Graphe {
 
     public abstract int[] codagePrufer();
 
-    public abstract void decodagePrufer(int p[]);
+    public abstract double[][] decodagePrufer(int p[]);
 
     public abstract boolean dantzig();
 }

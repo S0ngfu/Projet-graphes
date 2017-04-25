@@ -171,7 +171,14 @@ public class InterfaceConsole {
         }
 
         if(tmp == 10) {
-            g.decodagePrufer(g.codagePrufer());
+            double[][] tmptab = g.decodagePrufer(g.codagePrufer());
+
+            for (int i = 0 ; i < tmptab.length ; i++) {
+                for (int j = 0 ; j < tmptab[i].length ; j++) {
+                    System.out.print(tmptab[i][j] + "\t");
+                }
+                System.out.println();
+            }
         }
 
         if(tmp == 11) {

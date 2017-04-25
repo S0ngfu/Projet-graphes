@@ -111,8 +111,8 @@ public class GrapheListes extends Graphe {
     }
 
     @Override
-    public void decodagePrufer(int p[]) {
-        this.getMatrice().decodagePrufer(p);
+    public double[][] decodagePrufer(int p[]) {
+        return this.getMatrice().decodagePrufer(p);
     }
 
     @Override
