@@ -55,6 +55,7 @@ public class GrapheFsAps extends Graphe {
             } else {
                 if (!ecrit) {
                     tmpFs[i] = new Edges(s2, weight);
+                    ecrit = true;
                 } else {
                     tmpFs[i] = fs[i - 1];
                 }
